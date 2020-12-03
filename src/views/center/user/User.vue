@@ -8,11 +8,9 @@
 
 <script>
 import TitleBar from 'components/content/titleBar/TitleBar.vue'
-import MyTable from 'components/common/table/MyTable.vue'
+import {MyTable, cstTdType} from 'components/common/table/MyTable.js'
 
 import {getAllUserInfo} from 'network/user'
-
-import {cstTdType} from 'common/const.js'
 
 export default {
   name: 'User',

@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(rowItem, row) in dataList" :key="row" :pid="rowItem.id" :class="{'select-tr': row === curIndex}" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
+        <tr v-for="(rowItem, row) in dataList" :key="row" :pid="rowItem.id" :class="trClass(row)" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
           <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname">
             <input v-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {cstTdType} from 'common/const.js'
+import {cstTdType} from './MyTable.js'
 
 export default {
   name: 'MyTable',
@@ -46,6 +46,9 @@ export default {
     }
   },
   components: {
+    
+  },
+  computed: {
     
   },
   methods: {
@@ -79,6 +82,15 @@ export default {
     /***事件方法区 */
     showArrow(isShow){
       return isShow? 'arrow-icon' : ''
+    },
+    trClass(index){
+      if(this.curIndex === index){
+        return 'select-tr'
+      }
+      else if(index%2 == 1){
+        return 'tr-bgcolor2'
+      }
+      return 'tr-bgcolor1'
     },
     selectTr(rowItem, index){
       this.curIndex = index
@@ -126,7 +138,7 @@ export default {
     min-width: 30px;
   }
   th{
-    font-size: 20px;
+    font-size: var(--font-size-h2);
     color: var(--color-label);
     background-color: var(--bgcolor-th);
     position: relative;
@@ -138,7 +150,7 @@ export default {
   }
   td{
     position: relative;
-    font-size: 16px;
+    font-size: var(--font-size);
     color: var(--color-text);
     word-wrap: break-word;
     word-break: break-all;
@@ -168,7 +180,7 @@ export default {
     margin-top: 5px;
   }
   .openid-div{
-    font-size: 16px;
+    font-size: inherit;
     height: 36px;
     color: #666666;
   }
@@ -181,7 +193,7 @@ export default {
     width: 270px;
     height: 26px;
     margin-left: 5px;
-    font-size: 16px;
+    font-size: inherit;
     border: 1px solid rgba(204,204,204,1);
     color: #666666;
   }

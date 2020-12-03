@@ -1,4 +1,6 @@
-/* const cstTdType = {
+import MyTable from './MyTable.vue'
+
+const cstTdType = {
   'SHOW': 'show',
   'EDIT': 'edit',
   'CHECKBOX': 'checkbox',
@@ -7,5 +9,5 @@
 }
 
 export{
-  cstTdType
-} */
+  MyTable, cstTdType 
+}
