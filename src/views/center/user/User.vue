@@ -127,6 +127,6 @@ export default {
   #user {
     width: 100%;
     height: calc(100vh - 60px);
-    background: #f7f7f7;
+    background: var(--bgcolor-wall);
   }
 </style>

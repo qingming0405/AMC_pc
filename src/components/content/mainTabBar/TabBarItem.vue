@@ -29,7 +29,7 @@ export default {
     clear: both;
     width: 200px;
     height: 50px;
-    color: #fff;
+    color: var(--color-label);
     line-height: 50px;
     font-size: 16px;
     cursor: pointer;
@@ -39,7 +39,7 @@ export default {
     margin-left: 5px;
     font-size: 16px;
     text-decoration: none;
-    color: #fff;
+    color: var(--color-label);
   }
   .tab-bar-item:hover{
     background: rgba(255,255,255,0.3);

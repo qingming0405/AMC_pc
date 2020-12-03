@@ -23,6 +23,6 @@ export default {
     display: inline-block;
     width: 200px;
     height: calc(100vh - 60px);
-    background:rgba(0,119,211,1);
+    background: var(--bgcolor-tabbar);
   }
 </style>

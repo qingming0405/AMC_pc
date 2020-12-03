@@ -43,9 +43,9 @@ export default {
   .title-div{
     position: absolute;
     left: 30px;
-    font-size:26px;
+    font-size: var(--font-size-h1);
     font-weight:400;
-    color:rgba(0,0,0,1);
+    color: var(--color-text);
   }
   .control-div{
     position: absolute;

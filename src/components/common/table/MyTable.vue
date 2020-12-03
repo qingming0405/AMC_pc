@@ -103,11 +103,48 @@ export default {
   }
   .my-table table{
     width: 100%;
-    background: #fff;
+    background: var(--bgcolor-table);
+    border: 1px solid var(--border-table);
+    border-collapse: collapse;
   }
-
+  tr{
+    height: 50px;
+  }
+  .tr-bgcolor1{
+    background: var(--bgcolor-table);
+  }
+  .tr-bgcolor2{
+    background: var(--bgcolor-wall);
+  }
   .select-tr,tr:hover{
-    background: #D1E0FF;
+    background: var(--bgcolor-tr-hover);
+  }
+  th,td{
+    border: 1px solid var(--border-table);
+    text-align: center;
+    outline: none;
+    min-width: 30px;
+  }
+  th{
+    font-size: 20px;
+    color: var(--color-label);
+    background-color: var(--bgcolor-th);
+    position: relative;
+  }
+  th .arrow-icon{
+    position: absolute;
+    top: 24px;
+    right: 5px;
+  }
+  td{
+    position: relative;
+    font-size: 16px;
+    color: var(--color-text);
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+  .td-bgcolor1{
+    background: var(--color-warn);
   }
   td div{
     font-size: inherit;
