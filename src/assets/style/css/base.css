@@ -1,0 +1,341 @@
+html,body{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family:PingFang SC;
+}
+div,p,img,input,button,iframe,a{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 0;
+  outline: none;
+}
+.font-bold{
+  font-weight: bold;
+}
+/***********************************表格***********************************/
+table{
+  border: 1px solid #597DD2;
+  border-collapse: collapse;
+}
+tr{
+  height: 50px;
+}
+/*thead,tbody{
+  display: block;
+}
+thead tr{
+  display: table;
+  height: 50px;
+  width: 100%;
+  table-layout: fixed;
+}
+tbody{
+  overflow-y: auto;
+}
+tbody::-webkit-scrollbar{
+  display: none;
+}
+tr{
+  display: table;
+  height: 50px;
+  width: 100%;
+  table-layout: fixed;
+}*/
+/*tr:nth-of-type(even){
+  background: #f2f5f7;
+}*/
+.tr-bgcolor1{
+  background: #ffffff;
+}
+.tr-bgcolor2{
+  background: #f2f5f7;
+}
+.select-tr,tr:hover{
+  background: #D1E0FF;
+}
+th,td{
+  border: 1px solid #D1E0FF;
+  text-align: center;
+  outline: none;
+}
+th{
+  font-size: 20px;
+  color: #fff;
+  background-color: #63BBFF;
+  position: relative;
+}
+td{
+  position: relative;
+  font-size: 16px;
+  color: #000;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+.td-bgcolor1{
+  background: #ffa101;
+}
+th .arrow-icon{
+  position: absolute;
+  top: 24px;
+  right: 5px;
+}
+/*************************************弹窗*************************************/
+.amc-dialog{
+  position: absolute;
+  z-index: 200;
+  font-size: 16px;
+  background:rgba(255,255,255,1);
+  border:1px solid rgba(0,119,211,1);
+  box-shadow:0px 3px 7px 0px rgba(0,119,211,0.33);
+  border-radius:4px;
+}
+.info-dialog{
+  /*仅提示*/
+  display: none;
+  width: 300px;
+  top: 35%;
+  left: calc(50% - 150px);
+}
+.amc-dialog .dialog-head{
+  position: relative;
+  height: 40px;
+  width: 100%;
+}
+.dialog-title{
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 20px;
+  font-weight: 400;
+  font-size: 14px;
+}
+.dialog-close{
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 10px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.dialog-close:hover{
+  border: 1px solid #0077D3;
+}
+.amc-dialog .dialog-body{
+  width: 100%;
+}
+.dialog-body .dialog-content{
+  font-size: 16px;
+  text-align: center;
+  min-height: 60px;
+}
+.dialog-content{
+  padding: 30px;
+  word-wrap: break-word;
+}
+.amc-dialog .dialog-foot{
+  position: relative;
+  height: 50px;
+  width: 100%;
+  text-align: center;
+  line-height: 50px;
+}
+.dialog-foot button{
+  margin-left: 10px;
+  margin-right: 10px;
+}
+/***********************************筛选***********************************/
+.filter-box{
+  display: none;
+  width: 240px;
+  top: 35%;
+  left: calc(50% - 120px);
+  padding: 15px 20px 0px 20px;
+}
+.filter-box label{
+  font-size: 14px;
+}
+.filter-condition input{
+  font-size: 16px;
+  border: 1px solid #d2d1d1;
+  padding-left: 3px;
+  width: 100%;
+  height: 26px;
+  background: #fff;
+}
+.filter-content .check-control{
+  text-align: right;
+  word-spacing: 10px;
+  color: #3283d8;
+}
+.check-control label{
+  user-select: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.filter-content ul{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  max-height: 150px;
+  min-height: 90px;
+  overflow-y: auto;
+}
+.filter-content ul>li{
+  font-size: 16px;
+  font-weight: normal;
+  height: 30px;
+  line-height: 30px;
+  cursor: default;
+  user-select: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.filter-content ul>li:hover{
+  background: #D1E0FF;
+}
+/***********************************带检索下拉选择***********************************/
+.combobox{
+  z-index: 200;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  background: #fff;
+  margin: 0px;
+  padding: 0px;
+}
+.cb-ipt-div{
+  width: 100%;
+}
+.cb-ipt-div input{
+  font-size: 16px;
+  margin: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  background: #D1E0FF;
+  text-align: center;
+}
+.combobox ul{
+  margin: 2px 0px 0px 0px;
+  padding: 0;
+  border: 1px solid #597DD2;
+  list-style-type: none;
+  max-height: 150px;
+  min-height: 90px;
+  overflow-y: auto;
+}
+.combobox ul>li{
+  font-size: 16px;
+  font-weight: normal;
+  height: 30px;
+  line-height: 30px;
+  cursor: default;
+  user-select: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.combobox ul>li:hover{
+  background: #D1E0FF;
+}
+/***********************************复选下拉框***********************************/
+.multi-select{
+  z-index: 200;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  background: #fff;
+  margin: 0px;
+  padding: 0px;
+}
+.multi-select ul{
+  margin: 2px 0px 0px 0px;
+  padding: 0;
+  border: 1px solid #597DD2;
+  list-style-type: none;
+  max-height: 150px;
+  min-height: 90px;
+  overflow-y: auto;
+}
+.multi-select ul>li{
+  font-size: 16px;
+  font-weight: normal;
+  height: 30px;
+  line-height: 30px;
+  cursor: default;
+  user-select: none;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.multi-select ul>li:hover{
+  background: #D1E0FF;
+}
+/***********************************工具图标***********************************/
+/*按钮*/
+button{
+  background-color: #0077D3;
+  border: 1px solid #0077D3;
+  height: 34px;
+  min-width: 80px;
+  text-align: center;
+  font-size: 16px;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+button.sm-btn{
+  height: 26px;
+  min-width: 60px;
+  font-size: 14px;
+}
+button.grey-btn{
+  background-color: #ccc;
+  border: 1px solid #ccc;
+}
+/*单选或复选框*/
+.check-box{
+  width: 16px;
+  height: 16px;
+}
+/*下拉箭头*/
+.arrow-icon{
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  border-top-color: #fff;
+  cursor: pointer;
+}
+/*单选框*/
+.check-label{
+  font-size: 16px;
+  user-select: none;
+  cursor: pointer;
+}
+.check-label input{
+  vertical-align: middle;
+  margin-right: 3px;
+}
+/*表单项*/
+.form-item-div{
+  font-size: 16px;
+  height: 36px;
+  color: #666666;
+  padding: 0px 20px;
+}
+.form-item-div label{
+  padding-right: 10px;
+  text-align: right;
+}
+.form-item-div input{
+  width: 200px;
+  height: 26px;
+  font-size: 16px;
+  border:1px solid rgba(204,204,204,1);
+  color: #666666;
+}
