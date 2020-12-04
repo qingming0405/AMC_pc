@@ -10,7 +10,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(rowItem, row) in dataList" :key="row" :pid="rowItem.id" :class="trClass(row)" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
+        <tr v-for="(rowItem, row) in dataList" :key="row" :pid="rowItem.id" :class="[trBgColor(row), fontBold(rowItem.company)]" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
           <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname">
             <input v-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
@@ -26,6 +26,8 @@
 
 <script>
 import {cstTdType} from './MyTable.js'
+
+import {isZZQA} from 'common/util.js'
 
 export default {
   name: 'MyTable',
@@ -83,7 +85,7 @@ export default {
     showArrow(isShow){
       return isShow? 'arrow-icon' : ''
     },
-    trClass(index){
+    trBgColor(index){
       if(this.curIndex === index){
         return 'select-tr'
       }
@@ -91,6 +93,9 @@ export default {
         return 'tr-bgcolor2'
       }
       return 'tr-bgcolor1'
+    },
+    fontBold(company){
+      return isZZQA(company)? '' : 'font-bold'
     },
     selectTr(rowItem, index){
       this.curIndex = index
@@ -167,34 +172,5 @@ export default {
   td .operate{
     color: #63BBFF;
     cursor: pointer;
-  }
-  .openids-box{
-    display: none;
-    top: calc(50% - 170px);
-    left: calc(50% - 220px);
-    width: 440px;
-    height: 350px;
-  }
-  .openids-content{
-    height: 250px;
-    margin-top: 5px;
-  }
-  .openid-div{
-    font-size: inherit;
-    height: 36px;
-    color: #666666;
-  }
-  .openid-div span{
-    width: 140px;
-    text-align: right;
-    display: inline-block;
-  }
-  .openid-div input{
-    width: 270px;
-    height: 26px;
-    margin-left: 5px;
-    font-size: inherit;
-    border: 1px solid rgba(204,204,204,1);
-    color: #666666;
   }
 </style>

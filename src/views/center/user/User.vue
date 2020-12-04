@@ -3,12 +3,14 @@
     <title-bar title="人员管理" @btnClick="btnClick" :buttons="buttons"></title-bar>
     <my-table ref="myTable" :headList="headList" :dataList="dataList" 
             @tdBtnClick="tdBtnClick"/>
+    <open-id-set ref="openIdSet" v-show="showOpenIdSet" :officialAccounts="officialAccounts"></open-id-set>
   </div>
 </template>
 
 <script>
 import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {MyTable, cstTdType} from 'components/common/table/MyTable.js'
+import OpenIdSet from './OpenIdSet.vue'
 
 import {getAllUserInfo} from 'network/user'
 
@@ -16,8 +18,8 @@ export default {
   name: 'User',
   components: {
     TitleBar,
-    MyTable
-
+    MyTable,
+    OpenIdSet
   }, 
   data() {
     return {
@@ -42,16 +44,20 @@ export default {
         {label: '密码', pname: 'password', showArrow: false, type: cstTdType.EDIT},
       ],
       dataList: [],
+      officialAccounts: [],//公众号列表
       newDataId: -1,
+      showOpenIdSet: false
     }
   },
   created() {
     this.getAllUserInfo()
   },
   methods: {
+    /***请求数据 */
     getAllUserInfo(){
       getAllUserInfo().then(res => {
         this.dataList = this.localDataList(res.userInfos)
+        this.officialAccounts = res.officialAccounts
       })
     },
     localDataList(data){
@@ -114,8 +120,16 @@ export default {
       obj.password = ''
       return obj;
     },
-    tdBtnClick(pid,pname){
-      console.log(pid+'===='+pname)
+    tdBtnClick(rowItem,pname){
+      switch(pname){
+        case 'operate':
+          this.openIdSet(rowItem.id, rowItem.openIds)
+          break;
+      }
+    },
+    openIdSet(user_id, openIds){
+      this.$refs.openIdSet.setOpenIds(user_id, openIds)
+      this.showOpenIdSet = true
     }
   }
 }
