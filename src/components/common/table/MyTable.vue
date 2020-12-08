@@ -10,12 +10,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(rowItem, row) in dataList" :key="row" :pid="rowItem.id" :class="[trBgColor(row), fontBold(rowItem.company)]" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
+        <tr v-for="(rowItem, row) in dataList" :key="row" :pid="rowItem.id" :class="[trBgColor(row), fontBold(rowItem.fontBold)]" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
           <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname">
             <input v-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
             <span v-else-if="headItem.type === cstTdType.BUTTON" class="operate" @click="tdBtnClick(rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</span>
             <div v-else-if="headItem.type === cstTdType.EDIT" contenteditable="true" @input="tdEditInput($event, rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</div>
+            <div v-else-if="headItem.type === cstTdType.COO_EDIT" contenteditable="true" @input="tdEditInput($event, rowItem, headItem.pname, true)">{{rowItem[headItem.pname]}}</div>
             <div v-else>{{rowItem[headItem.pname]}}</div>
           </td>
         </tr>
@@ -26,8 +27,6 @@
 
 <script>
 import {cstTdType} from './MyTable.js'
-
-import {isZZQA} from 'common/util.js'
 
 export default {
   name: 'MyTable',
@@ -94,15 +93,21 @@ export default {
       }
       return 'tr-bgcolor1'
     },
-    fontBold(company){
-      return isZZQA(company)? '' : 'font-bold'
+    fontBold(fontBold){
+      if(typeof fontBold !== 'undefined' && fontBold === 'font-bold'){
+        return 'font-bold'
+      }
+      return ''
     },
     selectTr(rowItem, index){
       this.curIndex = index
       rowItem['needUpdate'] = true
     },
-    tdEditInput(event,rowItem,pname){
+    tdEditInput(event, rowItem, pname, isCoo=false){
       rowItem[pname] = event.target.textContent
+      if(isCoo && this.$parent){
+        this.$parent.cooTdEditInput(rowItem, pname)
+      }
     },
     tdBtnClick(rowItem,pname){
       this.$emit('td-btn-click',rowItem,pname)

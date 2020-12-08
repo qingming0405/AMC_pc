@@ -6,6 +6,7 @@ export function request(config){
     timeout: 5000,
     method: 'post',
     headers: {
+      // "Content-Type": "application/json;charsetset=UTF-8",
       "authorization":sessionStorage.amc_token//此处放置请求到的用户token
     },
   })

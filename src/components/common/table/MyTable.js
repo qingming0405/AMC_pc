@@ -5,7 +5,8 @@ const cstTdType = {
   'EDIT': 'edit',
   'CHECKBOX': 'checkbox',
   'ICON': 'icon',
-  'BUTTON': 'button'
+  'BUTTON': 'button',
+  'COO_EDIT': 'coo_edit'
 }
 
 export{

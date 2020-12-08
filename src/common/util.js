@@ -22,3 +22,14 @@ export function isZZQA(company){
   }
   return false;
 }
+
+/***********************************对象转字符串***********************************/
+export function jsonToStr(data){
+  if(data==null || typeof data === 'undefined'){
+    return ""
+  }
+  if(typeof data === 'String'){
+    return data
+  }
+  return JSON.stringify(data)
+}

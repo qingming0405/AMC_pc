@@ -1,23 +1,19 @@
 <template>
-  <div id="rights">
-    <h2>这是用户权限</h2>
+  <div id="test">
+    这是Test
   </div>
 </template>
 
 <script>
 
-
 export default {
-  name: 'Rights',
-  components: {
-
-
-  }
+  
+  name:' Test'
 }
 </script>
 
 <style scoped>
-  #rights{
+  #test{
     font-size: 16px;
   }
 </style>

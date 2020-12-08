@@ -1,9 +1,9 @@
 <template>
   <div id="user">
     <title-bar title="人员管理" @btnClick="btnClick" :buttons="buttons"></title-bar>
-    <my-table ref="myTable" :headList="headList" :dataList="dataList" 
+    <my-table ref="myTable" :head-list="headList" :data-list="dataList" 
             @tdBtnClick="tdBtnClick"/>
-    <open-id-set ref="openIdSet" v-show="showOpenIdSet" :officialAccounts="officialAccounts"></open-id-set>
+    <open-id-set ref="openIdSet" v-show="showOpenIdSet" :official-accounts="officialAccounts"></open-id-set>
   </div>
 </template>
 
@@ -13,6 +13,8 @@ import {MyTable, cstTdType} from 'components/common/table/MyTable.js'
 import OpenIdSet from './OpenIdSet.vue'
 
 import {getAllUserInfo} from 'network/user'
+
+import {isZZQA} from 'common/util.js'
 
 export default {
   name: 'User',
@@ -35,7 +37,7 @@ export default {
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.SHOW},
         {label: '姓名', pname: 'username', showArrow: true, type: cstTdType.EDIT},
         {label: '手机号码', pname: 'phone', showArrow: true, type: cstTdType.EDIT},
-        {label: '公司名称', pname: 'company', showArrow: true, type: cstTdType.EDIT},
+        {label: '公司名称', pname: 'company', showArrow: true, type: cstTdType.COO_EDIT},
         {label: '工作岗位', pname: 'post', showArrow: true, type: cstTdType.EDIT},
         {label: '微信昵称', pname: 'nickname', showArrow: false, type: cstTdType.EDIT},
         {label: '微信头像', pname: 'iconurl', showArrow: false, type: cstTdType.ICON},
@@ -48,6 +50,9 @@ export default {
       newDataId: -1,
       showOpenIdSet: false
     }
+  },
+  watch: {
+
   },
   created() {
     this.getAllUserInfo()
@@ -63,6 +68,7 @@ export default {
     localDataList(data){
       for(let i=0; i<data.length; i++){
         data[i].needUpdate = false
+        data[i].fontBold = isZZQA(data[i].company) ? '' : 'font-bold'
         data[i].checkRow = false
         data[i].order = i+1
         if(data[i].iconurl==null || data[i].iconurl==="" || data[i].iconurl==="null" || data[i].iconurl === "../../assets/img/image/portrait.png"){
@@ -102,6 +108,7 @@ export default {
     createUser(id,username,company,post,phone,account,password,isAdmin,nickname,iconurl,openIds){
       const obj = {};
       obj.needUpdate = false;
+      obj.fontBold = ''
       obj.checkRow = false
       obj.order = 1
       obj.id=id;
@@ -119,6 +126,16 @@ export default {
       obj.account = ''
       obj.password = ''
       return obj;
+    },
+    cooTdEditInput(rowItem, pname){
+      switch(pname){
+        case 'company':
+          this.updateFontBold(rowItem)
+          break
+      }
+    },
+    updateFontBold(rowItem){
+      rowItem.fontBold = isZZQA(rowItem.company) ? '' : 'font-bold'
     },
     tdBtnClick(rowItem,pname){
       switch(pname){
