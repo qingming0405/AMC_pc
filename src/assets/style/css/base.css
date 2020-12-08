@@ -149,6 +149,7 @@ input[type='checkbox']{
   line-height: 50px;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .dialog-foot button{
   margin-left: 10px;
