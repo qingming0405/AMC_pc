@@ -41,6 +41,9 @@ export default {
       this.$nextTick(() => {
         new QRCode('qrcode', { text, width, height, colorDark, colorLight, correctLevel })
       })
+    },
+    getImgSrc(){
+      return this.$refs.qrcode.getElementsByTagName('img')[0].src
     }
   }
 }

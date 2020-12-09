@@ -33,3 +33,17 @@ export function jsonToStr(data){
   }
   return JSON.stringify(data)
 }
+
+/***********************************下载图片***********************************/
+export function downloadImg(src, name, suffix){
+  let link = document.createElement("a");
+  if (link.download !== undefined) { // feature detection
+    // Browsers that support HTML5 download attribute
+    link.setAttribute("href", src);
+    link.setAttribute("download", name + "." + suffix);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}

@@ -17,6 +17,8 @@
 <script>
 import VueQr from 'components/common/qrcode/VueQr.vue'
 
+import {downloadImg} from 'common/util.js'
+
 export default {
   name: 'QrShow',
   components: {
@@ -36,7 +38,8 @@ export default {
     },
     /***事件 */
     onDownload(){
-      
+      let src = this.$refs.vueQr.getImgSrc()
+      downloadImg(src, this.title, "png")
     },
     onClose(){
       this.$parent.showQRCode = false
