@@ -9,17 +9,20 @@ export function getAllUserInfo() {
 export function insertAndUpdateUsers(userInfos) {
   return request({
     url: '/insertAndUpdateUsers',
-    params: {
-      userInfos
-    }
+    data: userInfos
   })
 }
 
 export function delUserById(delIds) {
   return request({
     url: '/delUserById',
-    params:{
-      delIds
-    }
+    data: delIds
+  })
+}
+
+export function updateAlarmUserInfo(dataP){
+  return request({
+    url: '/updateAlarmUserInfo',
+    data: dataP
   })
 }
