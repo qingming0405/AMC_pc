@@ -25,7 +25,6 @@ export default {
   }, 
   data() {
     return {
-      cstTdType,
       defaultIconUrl: require('assets/img/user/portrait.png'),
       buttons:[
         {label: '新建', type: 'addUser'},

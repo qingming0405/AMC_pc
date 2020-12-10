@@ -24,7 +24,6 @@ export default {
   },
   data() {
     return {
-      cstTdType,
       buttons:[
         {label: '新建', type: 'addOfficial'},
         {label: '保存', type: 'saveOfficials'},

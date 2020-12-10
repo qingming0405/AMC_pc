@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 export function request(config){
+  // console.log(sessionStorage.amc_token);
 
   const instance = axios.create({
     baseURL: 'http://10.100.0.2:8880/AMC',

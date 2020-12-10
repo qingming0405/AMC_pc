@@ -10,6 +10,7 @@ import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {cstTdType,MyTable} from 'components/common/table/MyTable.js'
 
 import {getCurUser} from 'common/util.js'
+import {getProjectInfo} from 'network/project.js'
 
 export default {
   name: 'Project',
@@ -19,7 +20,7 @@ export default {
   },
   data() {
     return {
-      cstTdType,
+      curUser: null,
       buttons:[
         {label: '新建', type: 'addUser'},
         {label: '保存', type: 'saveProjects'},
@@ -42,12 +43,11 @@ export default {
     this.getProjects()
   },
   methods:{
-    getCurUser(){
-
-    },
     getProjects(){
-      getProjectInfo().then(res => {
-        this.dataList = this.localDataList(res.officialAccounts)
+      this.curUser = getCurUser()
+      const config = {"id": this.curUser.id, "isAdmin": this.curUser.isAdmin}
+      getProjectInfo(config).then(res => {
+        this.dataList = this.localDataList(res.info)
       })
     },
     localDataList(data){
