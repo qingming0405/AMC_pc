@@ -1,8 +1,8 @@
 <template>
   <div id="user">
-    <title-bar title="人员管理" @btnClick="btnClick" :buttons="buttons"></title-bar>
+    <title-bar title="人员管理" @btn-click="btnClick" :buttons="buttons"></title-bar>
     <my-table ref="myTable" :head-list="headList" :data-list="dataList" 
-            @tdBtnClick="tdBtnClick"/>
+            @td-btn-click="tdBtnClick"/>
     <open-id-set ref="openIdSet" v-show="showOpenIdSet" :official-accounts="officialAccounts"></open-id-set>
   </div>
 </template>

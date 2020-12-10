@@ -7,6 +7,8 @@
 
 <script>
 
+import {getCurUser} from 'common/util.js'
+
 export default {
   name: 'Top',
   methods: {
@@ -14,7 +16,8 @@ export default {
 
     },
     showCurUserInfo(){
-
+      let curUser = getCurUser();
+      console.log(curUser);
     }
   }
 }

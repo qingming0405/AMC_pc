@@ -6,7 +6,11 @@ const cstTdType = {
   'CHECKBOX': 'checkbox',
   'ICON': 'icon',
   'BUTTON': 'button',
-  'COO_EDIT': 'coo_edit'
+  'COMBOBOX': 'combobox',
+  'MULTI_CHECKBOX': 'multi_checkbox',
+  'MULTI_COMBOBOX': 'multi_combobox',
+  'COO_EDIT': 'coo_edit',
+  'COO_COMBOBOX': 'coo_combobox',
 }
 
 export{

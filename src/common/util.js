@@ -1,11 +1,8 @@
 import {hex_md5} from 'assets/js/md5'
 
-/***********************************md5加密***********************************/
-export function amc_md5(data){
-  if(data==null || data===""){
-    return "";
-  }
-  return hex_md5("amc"+data);
+/***********************************获取当前用户***********************************/
+export function getCurUser(){
+  return JSON.parse(sessionStorage.amc_user)
 }
 
 /*********************************是否为中自庆安***********************************/
@@ -22,6 +19,17 @@ export function isZZQA(company){
   }
   return false;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/***********************************md5加密***********************************/
+export function amc_md5(data){
+  if(data==null || data===""){
+    return "";
+  }
+  return hex_md5("amc"+data);
+}
+
 
 /***********************************对象转字符串***********************************/
 export function jsonToStr(data){

@@ -1,6 +1,6 @@
 <template>
   <div id="official">
-    <title-bar title="公众号管理" :buttons="buttons" @btnClick="btnClick"></title-bar>
+    <title-bar title="公众号管理" :buttons="buttons" @btn-click="btnClick"></title-bar>
     <my-table :head-list="headList" :data-list="dataList" @td-btn-click="tdBtnClick"></my-table>
     <qr-show ref="qrShow" v-show="showQRCode"></qr-show>
   </div>
@@ -26,9 +26,9 @@ export default {
     return {
       cstTdType,
       buttons:[
-        {label: '新建', type: 'addUser'},
-        {label: '保存', type: 'saveUsers'},
-        {label: '删除', type: 'deleteUsers'}
+        {label: '新建', type: 'addOfficial'},
+        {label: '保存', type: 'saveOfficials'},
+        {label: '删除', type: 'deleteOfficials'}
       ],
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
