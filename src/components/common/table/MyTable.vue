@@ -17,6 +17,7 @@
             <input v-else-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
             <span v-else-if="headItem.type === cstTdType.BUTTON" class="operate" @click="tdBtnClick(rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</span>
+            
             <div v-else-if="headItem.type === cstTdType.COO_EDIT" contenteditable="true" @input="tdEditInput($event, rowItem, headItem.pname, true)">{{rowItem[headItem.pname]}}</div>
             <div v-else>{{rowItem[headItem.pname]}}</div>
           </td>

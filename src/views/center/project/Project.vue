@@ -9,14 +9,14 @@
 import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {cstTdType,MyTable} from 'components/common/table/MyTable.js'
 
-import {getCurUser} from 'common/util.js'
+import {getCurUser, isZZQA} from 'common/util.js'
 import {getProjectInfo} from 'network/project.js'
 
 export default {
   name: 'Project',
   components: {
-    TitleBar
-
+    TitleBar,
+    MyTable
   },
   data() {
     return {
@@ -30,13 +30,14 @@ export default {
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.SHOW},
         {label: '项目名称', pname: 'name', showArrow: true, type: cstTdType.EDIT},
-        {label: '工艺段/风场', pname: 't_name', showArrow: true, type: cstTdType.COMBOBOX},
-        {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.COO_COMBOBOX},
-        {label: '项目成员', pname: 'members', showArrow: true, type: cstTdType.EDIT},
+        // {label: '工艺段/风场', pname: 'folder', showArrow: true, type: cstTdType.COMBOBOX},
+        // {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.COO_COMBOBOX},
+        // {label: '项目成员', pname: 'members', showArrow: true, type: cstTdType.MULTI_TEXT},
       ],
       dataList: [],
       newDataId: -1,
-      showQRCode: false
+      folders: [],
+      users: []
     }
   },
   created(){
@@ -47,7 +48,10 @@ export default {
       this.curUser = getCurUser()
       const config = {"id": this.curUser.id, "isAdmin": this.curUser.isAdmin}
       getProjectInfo(config).then(res => {
+        this.folders = res.folders;
+        this.users = res.users;
         this.dataList = this.localDataList(res.info)
+        console.log(this.dataList);
       })
     },
     localDataList(data){
@@ -55,9 +59,45 @@ export default {
         data[i].needUpdate = false
         data[i].checkRow = false
         data[i].order = i+1
-        data[i].qrCode = '查看'
+        data[i].id = data[i].project.id
+        data[i].name = data[i].project.name
+        data[i].folder = this.getFolderItem(data[i].project)
+        data[i].manager = this.getManagerItem(data[i].managerInfo)
+        data[i].members = this.getMembersItem(data[i].memberInfo)
       }
       return data;
+    },
+    getFolderItem(project){
+      const options = []
+      for(let folder of this.folders){
+        options.push({label: folder.t_name, value: folder.t_name})
+      }
+      return {
+        label: project.t_name,
+        value: project.t_id,
+        options
+      }
+    },
+    getManagerItem(managerInfo){
+      const options = []
+      for(let user of this.users){
+        options.push({label: user.username+'-'+user.phone, value: user.id})
+      }
+      return {
+        label: managerInfo.username + '-' + managerInfo.phone,
+        value: managerInfo.id,
+        options
+      }
+    },
+    getMembersItem(members){
+      const texts = []
+      for(let member of members){
+        texts.push({text: member.username, fontBold: this.fontBold(member.company)})
+      }
+      return texts
+    },
+    fontBold(company){
+      return isZZQA(company) ? '' : 'font-bold'
     },
     /***事件 */
     btnClick(type){
@@ -83,23 +123,19 @@ export default {
     },
     tdBtnClick(rowItem,pname){
       switch(pname){
-        case 'qrCode':
-          this.qrShow(rowItem.id,rowItem.name)
+        case 'members':
+          
           break;
       }
-    },
-    qrShow(id, name){
-      let dataP = {"id":id};
-      getQRCodeStr(dataP).then(res => {
-        this.$refs.qrShow.setInfos(name, res.str)
-        this.showQRCode = true
-      })
-     
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  #project {
+    width: 100%;
+    height: calc(100vh - 60px);
+    background: var(--bgcolor-wall);
+  }
 </style>

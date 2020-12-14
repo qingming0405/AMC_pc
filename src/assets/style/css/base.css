@@ -243,9 +243,13 @@ input[type='checkbox']{
   list-style-type: none;
   max-height: 150px;
   min-height: 90px;
+  width: fit-content;
+  min-width: 100%;
+  max-width: 150%;
   overflow-y: auto;
 }
 .combobox ul>li{
+  padding: 0px 3px;
   font-size: 16px;
   font-weight: normal;
   height: 30px;

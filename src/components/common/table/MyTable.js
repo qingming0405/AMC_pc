@@ -7,6 +7,7 @@ const cstTdType = {
   'ICON': 'icon',
   'BUTTON': 'button',
   'COMBOBOX': 'combobox',
+  'MULTI_TEXT': 'multi_text',
   'MULTI_CHECKBOX': 'multi_checkbox',
   'MULTI_COMBOBOX': 'multi_combobox',
   'COO_EDIT': 'coo_edit',

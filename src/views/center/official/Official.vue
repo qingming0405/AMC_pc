@@ -106,5 +106,9 @@ export default {
 </script>
 
 <style scoped>
-
+  #official {
+    width: 100%;
+    height: calc(100vh - 60px);
+    background: var(--bgcolor-wall);
+  }
 </style>
