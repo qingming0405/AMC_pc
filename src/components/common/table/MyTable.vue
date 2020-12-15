@@ -16,8 +16,8 @@
             <div v-else-if="headItem.type === cstTdType.EDIT" contenteditable="true" @input="tdEditInput($event, rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</div>
             <input v-else-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
-            <span v-else-if="headItem.type === cstTdType.BUTTON" class="operate" @click="tdBtnClick(rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</span>
-            
+            <span v-else-if="headItem.type === cstTdType.BUTTON" class="td-button" @click="tdBtnClick(rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</span>
+            <div v-else-if="headItem.type === cstTdType.COMBOBOX" @dblclick="tdDblClick($event, rowItem, headItem.pname)">{{rowItem[headItem.pname].label}}</div>
             <div v-else-if="headItem.type === cstTdType.COO_EDIT" contenteditable="true" @input="tdEditInput($event, rowItem, headItem.pname, true)">{{rowItem[headItem.pname]}}</div>
             <div v-else>{{rowItem[headItem.pname]}}</div>
           </td>
@@ -114,8 +114,10 @@ export default {
     tdBtnClick(rowItem, pname){
       this.$emit('td-btn-click',rowItem,pname)
     },
-    tdDblClick(rowItem, pname){
-      this.$emit('td-dbl-click',rowItem,pname)
+    tdDblClick(event, rowItem, pname){
+      // console.log(event);
+      console.log(event.clientX - event.offsetX);
+      // this.$emit('td-dbl-click',rowItem,pname)
     }
   }
 }
@@ -179,7 +181,7 @@ export default {
   td img{
     width: 32px;
   }
-  td .operate{
+  td .td-button{
     color: #63BBFF;
     cursor: pointer;
   }

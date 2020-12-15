@@ -30,7 +30,7 @@ export default {
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.SHOW},
         {label: '项目名称', pname: 'name', showArrow: true, type: cstTdType.EDIT},
-        // {label: '工艺段/风场', pname: 'folder', showArrow: true, type: cstTdType.COMBOBOX},
+        {label: '工艺段/风场', pname: 'folder', showArrow: true, type: cstTdType.COMBOBOX},
         // {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.COO_COMBOBOX},
         // {label: '项目成员', pname: 'members', showArrow: true, type: cstTdType.MULTI_TEXT},
       ],
