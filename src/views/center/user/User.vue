@@ -98,6 +98,7 @@ export default {
       this.$refs.myTable.reOrderDataList()
     },
     saveUsers() {
+      this.$pop(this.dataList.toString())
       console.log(this.$refs.myTable.getUpdateRows())
     },
     deleteUsers() {

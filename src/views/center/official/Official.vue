@@ -78,7 +78,7 @@ export default {
       }
     },
     addOfficial(){
-
+      this.$pop('添加公众号')
     },
     saveOfficials(){
 

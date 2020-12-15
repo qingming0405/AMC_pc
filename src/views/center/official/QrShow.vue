@@ -1,15 +1,17 @@
 <template>
-  <div id="qr-box" class="my-dialog">
-    <div class="dialog-head">
-      <div class="dialog-title">{{title}}</div>
-      <div class="dialog-close" @click="onClose">&nbsp;X&nbsp;</div>
-    </div>
-    <div class="dialog-body qrcode-content">
-      <vue-qr ref="vueQr" :text="url" :size="size"/>
-    </div>
-    <div class="dialog-foot">
-      <button class="sm-btn sure-btn" @click="onDownload">下载</button>
-      <button class="sm-btn grey-btn cancel-btn" @click="onClose">取消</button>
+  <div id="qr-box" class="modal-bg">
+    <div class="modal-container qr-container">
+      <div class="modal-head">
+        <div class="modal-title">{{title}}</div>
+        <div class="modal-close" @click="onClose">&nbsp;X&nbsp;</div>
+      </div>
+      <div class="modal-body qrcode-content">
+        <vue-qr ref="vueQr" :text="url" :size="size"/>
+      </div>
+      <div class="modal-foot">
+        <button class="sm-btn sure-btn" @click="onDownload">下载</button>
+        <button class="sm-btn grey-btn cancel-btn" @click="onClose">取消</button>
+      </div>
     </div>
   </div>
 </template>
@@ -49,9 +51,7 @@ export default {
 </script>
 
 <style scoped>
-  #qr-box{
-    top: calc(50% - 140px);
-    left: calc(50% - 140px);
+  .qr-container{
     width: 260px;
     height: 280px;
   }

@@ -1,35 +1,37 @@
 <template>
-  <div id="userSet" class="my-dialog">
-    <div class="dialog-head">
-      <div class="dialog-title">当前账号</div>
-      <div class="dialog-close" @click="onClose">&nbsp;X&nbsp;</div>
-    </div>
-    <div class="dialog-body userset-content">
-      <div class="form-item-div">
-        <label for="ipt-account">账号名称</label>
-        <input v-model="account" type="text" readonly>
+  <div id="userSet" class="modal-bg">
+    <div class="modal-container userSet-container">
+      <div class="modal-head">
+        <div class="modal-title">当前账号</div>
+        <div class="modal-close" @click="onClose">&nbsp;X&nbsp;</div>
       </div>
-      <div class="form-item-div">
-        <label for="">账号角色</label>
-        <input v-model="role" type="text" readonly>
+      <div class="modal-body userset-content">
+        <div class="form-item-div">
+          <label for="ipt-account">账号名称</label>
+          <input v-model="account" type="text" readonly>
+        </div>
+        <div class="form-item-div">
+          <label for="">账号角色</label>
+          <input v-model="role" type="text" readonly>
+        </div>
+        <div class="form-item-div">
+          <label>当前密码</label>
+          <input v-model="psdOld" type="text" autocomplete="off" required="required" maxlength="50">
+        </div>
+        <div class="form-item-div">
+          <label>重置密码</label>
+          <input v-model="psdNew" type="text" autocomplete="off" required="required" maxlength="50">
+        </div>
+        <div class="form-item-div">
+          <label>确认密码</label>
+          <input v-model="psdSure" type="text" autocomplete="off" required="required" maxlength="50">
+        </div>
+        <p class="error-p">{{errorP}}</p>
       </div>
-      <div class="form-item-div">
-        <label>当前密码</label>
-        <input v-model="psdOld" type="text" autocomplete="off" required="required" maxlength="50">
+      <div class="modal-foot">
+        <button class="sm-btn sure-btn" @click="onSure">确定</button>
+        <button class="sm-btn grey-btn cancel-btn" @click="onClose">取消</button>
       </div>
-      <div class="form-item-div">
-        <label>重置密码</label>
-        <input v-model="psdNew" type="text" autocomplete="off" required="required" maxlength="50">
-      </div>
-      <div class="form-item-div">
-        <label>确认密码</label>
-        <input v-model="psdSure" type="text" autocomplete="off" required="required" maxlength="50">
-      </div>
-      <p class="error-p">{{errorP}}</p>
-    </div>
-    <div class="dialog-foot">
-      <button class="sm-btn sure-btn" @click="onSure">确定</button>
-      <button class="sm-btn grey-btn cancel-btn" @click="onClose">取消</button>
     </div>
   </div>
 </template>
@@ -97,9 +99,7 @@ export default {
 </script>
 
 <style>
-  #userSet{
-    top: calc(50% - 170px);
-    left: calc(50% - 220px);
+  .userSet-container{
     width:323px;
     height:285px;
   }

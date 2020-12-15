@@ -1,18 +1,20 @@
 <template>
-  <div id="openids-box" class="my-dialog">
-    <div class="dialog-head">
-      <div class="dialog-title">设置</div>
-      <div class="dialog-close" @click="onClose">&nbsp;X&nbsp;</div>
-    </div>
-    <div class="dialog-body openids-content">
-      <div v-for="(item, index) in curOpenIds" :key="index" class="openid-div">
-        <span>{{item.official_account_name}}</span>
-        <input type="text" v-model="item.open_id">
+  <div id="openids-box" class="modal-bg">
+    <div class="modal-container openids-container">
+      <div class="modal-head">
+        <div class="modal-title">设置</div>
+        <div class="modal-close" @click="onClose">&nbsp;X&nbsp;</div>
       </div>
-    </div>
-    <div class="dialog-foot">
-      <button class="sm-btn sure-btn" @click="onSure">确定</button>
-      <button class="sm-btn grey-btn cancel-btn" @click="onClose">取消</button>
+      <div class="modal-body openids-content">
+        <div v-for="(item, index) in curOpenIds" :key="index" class="openid-div">
+          <span>{{item.official_account_name}}</span>
+          <input type="text" v-model="item.open_id">
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="sm-btn sure-btn" @click="onSure">确定</button>
+        <button class="sm-btn grey-btn cancel-btn" @click="onClose">取消</button>
+      </div>
     </div>
   </div>
 </template>
@@ -69,9 +71,7 @@ export default {
 </script>
 
 <style scoped>
-  #openids-box{
-    top: calc(50% - 170px);
-    left: calc(50% - 220px);
+  .openids-container{
     width: 440px;
     height: 350px;
   }

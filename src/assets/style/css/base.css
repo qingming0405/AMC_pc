@@ -107,29 +107,38 @@ input[type='checkbox']{
 }
 
 /*************************************弹窗*************************************/
-.my-dialog{
-  position: absolute;
+.modal-bg{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 200;
+}
+.modal-container{
   font-size: 16px;
   background: var(--bgcolor);
   border:1px solid rgba(0,119,211,1);
   box-shadow:0px 3px 7px 0px rgba(0,119,211,0.33);
   border-radius:4px;
 }
-.dialog-head{
+.modal-head{
   position: relative;
   width: 100%;
   height: 40px;
   line-height: 40px;
   color: var(--color-text);
 }
-.dialog-title{
+.modal-title{
   display: inline-block;
   margin-left: 20px;
   font-weight: 400;
   font-size: var(--font-size-small);
 }
-.dialog-close{
+.modal-close{
   display: inline-block;
   position: absolute;
   right: 20px;
@@ -137,15 +146,15 @@ input[type='checkbox']{
   font-weight: 400;
   cursor: pointer;
 }
-.dialog-close:hover{
+.modal-close:hover{
   border: 1px solid var(--color-active);
 }
-.dialog-body{
+.modal-body{
   width: 100%;
   font-size: var(--font-size);
   min-height: 60px;
 }
-.dialog-foot{
+.modal-foot{
   height: 50px;
   width: 100%;
   line-height: 50px;
@@ -153,15 +162,9 @@ input[type='checkbox']{
   justify-content: center;
   align-items: center;
 }
-.dialog-foot button{
+.modal-foot button{
   margin-left: 10px;
   margin-right: 10px;
-}
-.info-dialog{
-  /*仅提示*/
-  width: 300px;
-  top: 35%;
-  left: calc(50% - 150px);
 }
 /***********************************筛选***********************************/
 .filter-box{
