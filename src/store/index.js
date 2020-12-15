@@ -1,7 +1,10 @@
-import { createStore } from 'vuex'
+import Vue from 'vue'
+import Vuex from 'vuex'
 
 import mutations from './mutations'
 import actions from './actions'
+
+Vue.use(Vuex)
 
 const state = {
   // token: '',
@@ -9,7 +12,7 @@ const state = {
   
 }
 
-const store = createStore({
+const store = new Vuex.Store({
   state,
   mutations,
   actions,
