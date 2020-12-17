@@ -13,12 +13,15 @@
         <tr v-for="(rowItem, row) in dataList" :key="row" :pid="rowItem.id" :class="[trBgColor(row), fontBold(rowItem.fontBold)]" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
           <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname">
             <div v-if="headItem.type === cstTdType.SHOW">{{rowItem[headItem.pname]}}</div>
-            <div v-else-if="headItem.type === cstTdType.EDIT" contenteditable="true" @input="tdEditInput($event, rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</div>
+            <div v-else-if="headItem.type === cstTdType.EDIT" contenteditable="true" @blur="tdEditBlur($event, rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</div>
             <input v-else-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
             <span v-else-if="headItem.type === cstTdType.BUTTON" class="td-button" @click="tdBtnClick(rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</span>
-            <div v-else-if="headItem.type === cstTdType.COMBOBOX" @dblclick="tdDblClick($event, rowItem, headItem.pname)">{{rowItem[headItem.pname].label}}</div>
-            <div v-else-if="headItem.type === cstTdType.COO_EDIT" contenteditable="true" @input="tdEditInput($event, rowItem, headItem.pname, true)">{{rowItem[headItem.pname]}}</div>
+            <div v-else-if="headItem.type === cstTdType.COMBOBOX" @dblclick="tdDblClick($event, cstTdType.COMBOBOX, rowItem, headItem.pname)">{{rowItem[headItem.pname].label}}</div>
+            <div v-else-if="headItem.type === cstTdType.MULTI_TEXT" @dblclick="tdDblClick($event, cstTdType.MULTI_TEXT, rowItem, headItem.pname)">
+              <span v-for="(textItem, index) in rowItem[headItem.pname]" :key="index" :class="fontBold(textItem.fontBold)">{{textItem.text}}</span>
+            </div>
+            <div v-else-if="headItem.type === cstTdType.COO_EDIT" contenteditable="true" @blur="tdEditBlur($event, rowItem, headItem.pname, true)">{{rowItem[headItem.pname]}}</div>
             <div v-else>{{rowItem[headItem.pname]}}</div>
           </td>
         </tr>
@@ -105,19 +108,38 @@ export default {
       this.curIndex = index
       rowItem['needUpdate'] = true
     },
-    tdEditInput(event, rowItem, pname, isCoo=false){
-      rowItem[pname] = event.target.textContent
-      if(isCoo && this.$parent){
-        this.$parent.cooTdEditInput(rowItem, pname)
+    tdEditBlur(e, rowItem, pname, isCoo=false){
+      rowItem[pname] = e.target.textContent
+      if(isCoo){
+        this.$emit('coo-td-edit-blur',rowItem, pname)
       }
     },
     tdBtnClick(rowItem, pname){
       this.$emit('td-btn-click',rowItem,pname)
     },
-    tdDblClick(event, rowItem, pname){
-      // console.log(event);
-      console.log(event.clientX - event.offsetX);
-      // this.$emit('td-dbl-click',rowItem,pname)
+    tdDblClick(e, tdType, rowItem, pname){
+      const styleObj = {
+        //覆盖td
+        left: e.path[1].offsetLeft + 'px',
+        top: e.path[1].offsetTop + 'px',
+        width: e.path[1].offsetWidth + 'px',
+        height: e.path[1].offsetHeight + 'px',
+      }
+      switch(tdType){
+        case cstTdType.COMBOBOX:
+          this.$combobox(Object.assign(
+            {},
+            rowItem[pname],
+            {styleObj}
+          )).then(res => {
+            this.emitTdDblClickBack(rowItem,pname,res)
+          })
+          break
+      }
+      
+    },
+    emitTdDblClickBack(rowItem,pname,result){
+      this.$emit('td-dbl-click-back',rowItem,pname,result)
     }
   }
 }
@@ -177,6 +199,7 @@ export default {
   }
   td div{
     font-size: inherit;
+    height: initial;
   }
   td img{
     width: 32px;

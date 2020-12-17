@@ -2,7 +2,7 @@
   <div id="user">
     <title-bar title="人员管理" @btn-click="btnClick" :buttons="buttons"></title-bar>
     <my-table ref="myTable" :head-list="headList" :data-list="dataList" 
-            @td-btn-click="tdBtnClick"/>
+            @td-btn-click="tdBtnClick" @coo-td-edit-blur="cooTdEditBlur"/>
     <open-id-set ref="openIdSet" v-show="showOpenIdSet" :official-accounts="officialAccounts"></open-id-set>
   </div>
 </template>
@@ -127,7 +127,7 @@ export default {
       obj.password = ''
       return obj;
     },
-    cooTdEditInput(rowItem, pname){
+    cooTdEditBlur(rowItem, pname){
       switch(pname){
         case 'company':
           this.updateFontBold(rowItem)

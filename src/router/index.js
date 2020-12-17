@@ -15,17 +15,17 @@ const routes = [
   },
   {
     path: '/index',
-    redirect: '/index/official'
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
+    redirect: '/index/project'
   },
   {
     path: '/test',
     name: 'Test',
     component: Test
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/index',

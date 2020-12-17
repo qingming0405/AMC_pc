@@ -1,7 +1,8 @@
 <template>
   <div id="project">
     <title-bar title="项目管理" :buttons="buttons" @btn-click="btnClick"/>
-    <my-table :head-list="headList" :data-list="dataList" @td-btn-click="tdBtnClick"></my-table>
+    <my-table :head-list="headList" :data-list="dataList" 
+               @coo-td-edit-blur="cooTdEditBlur" @td-dbl-click-back="tdDblClickBack"></my-table>
   </div>
 </template>
 
@@ -29,10 +30,10 @@ export default {
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.SHOW},
-        {label: '项目名称', pname: 'name', showArrow: true, type: cstTdType.EDIT},
+        {label: '项目名称', pname: 'name', showArrow: true, type: cstTdType.COO_EDIT},
         {label: '工艺段/风场', pname: 'folder', showArrow: true, type: cstTdType.COMBOBOX},
-        // {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.COO_COMBOBOX},
-        // {label: '项目成员', pname: 'members', showArrow: true, type: cstTdType.MULTI_TEXT},
+        {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.COMBOBOX},
+        {label: '项目成员', pname: 'members', showArrow: true, type: cstTdType.MULTI_TEXT},
       ],
       dataList: [],
       newDataId: -1,
@@ -51,7 +52,7 @@ export default {
         this.folders = res.folders;
         this.users = res.users;
         this.dataList = this.localDataList(res.info)
-        console.log(this.dataList);
+        // console.log(this.dataList);
       })
     },
     localDataList(data){
@@ -70,7 +71,7 @@ export default {
     getFolderItem(project){
       const options = []
       for(let folder of this.folders){
-        options.push({label: folder.t_name, value: folder.t_name})
+        options.push({label: folder.t_name, value: folder.t_id})
       }
       return {
         label: project.t_name,
@@ -92,7 +93,7 @@ export default {
     getMembersItem(members){
       const texts = []
       for(let member of members){
-        texts.push({text: member.username, fontBold: this.fontBold(member.company)})
+        texts.push({text: member.username+' ', fontBold: this.fontBold(member.company)})
       }
       return texts
     },
@@ -121,11 +122,25 @@ export default {
     deleteProjects(){
 
     },
-    tdBtnClick(rowItem,pname){
+    cooTdEditBlur(rowItem, pname){
       switch(pname){
+        case 'name':
+          rowItem.project.name = rowItem[pname]
+          break
+      }
+    },
+    tdDblClickBack(rowItem,pname,result){
+      switch(pname){
+        case 'folder':
+          Object.assign(rowItem[pname], result)
+          rowItem.project.t_name = rowItem[pname].label
+          rowItem.project.t_id = rowItem[pname].value
+          break
+        case 'manager':
+          Object.assign(rowItem[pname], result)
+          break
         case 'members':
-          
-          break;
+          break
       }
     }
   }

@@ -222,13 +222,14 @@ input[type='checkbox']{
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 100%;
+  width: inherit;
   background: #fff;
   margin: 0px;
   padding: 0px;
 }
 .cb-ipt-div{
-  width: 100%;
+  width: inherit;
+  height: inherit;
 }
 .cb-ipt-div input{
   font-size: 16px;
@@ -243,6 +244,7 @@ input[type='checkbox']{
   margin: 2px 0px 0px 0px;
   padding: 0;
   border: 1px solid #597DD2;
+  background: #fff;
   list-style-type: none;
   max-height: 150px;
   min-height: 90px;
@@ -261,6 +263,7 @@ input[type='checkbox']{
   user-select: none;
   overflow: hidden;
   white-space: nowrap;
+  text-align: center;
 }
 .combobox ul>li:hover{
   background: #D1E0FF;
