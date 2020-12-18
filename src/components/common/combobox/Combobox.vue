@@ -43,7 +43,7 @@ export default {
       promise: "",
       resolve: "",
       reject: "",
-      curLabel: '',
+      curLabel: null,
       needMatch: false,
       curOptions: []
     }

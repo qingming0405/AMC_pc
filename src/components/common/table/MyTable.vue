@@ -120,8 +120,8 @@ export default {
     tdDblClick(e, tdType, rowItem, pname){
       const styleObj = {
         //覆盖td
-        left: e.path[1].offsetLeft + 'px',
-        top: e.path[1].offsetTop + 'px',
+        left: (e.clientX - e.offsetX - e.detail) + 'px',
+        top: (e.clientY - e.offsetY - e.detail) + 'px',
         width: e.path[1].offsetWidth + 'px',
         height: e.path[1].offsetHeight + 'px',
       }
@@ -158,7 +158,7 @@ export default {
     border: 1px solid var(--border-table);
     border-collapse: collapse;
   }
-  tr{
+  tr,td{
     height: 50px;
   }
   .tr-bgcolor1{
@@ -199,7 +199,14 @@ export default {
   }
   td div{
     font-size: inherit;
-    height: initial;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  td>div>span{
+    margin: 0px 3px;
   }
   td img{
     width: 32px;

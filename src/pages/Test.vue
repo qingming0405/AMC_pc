@@ -4,27 +4,19 @@
     <h2>message = {{message}}</h2>
     <h2>result = {{resultMsg}}</h2>
     <button @click="btnClick">点击</button>
-    <combobox :isShow="true" :label="label" :value="value" :options="options"/>
   </div>
 </template>
 
 <script>
-import Combobox from '../components/common/combobox/Combobox.vue';
 
 export default {
-  components: { Combobox },
   name: 'Test',
   data() {
     return {
       message: 1,
       needChange: false,
-      label: '张三',
-      value: '20',
-      options: [{label:'张三', value:'20'}, {label:'李四', value:'21'}, {label:'王五', value:'22'}]
+      abc: {'a':100}
     }
-  },
-  mounted() {
-    console.log('aaaaaaaaaa');
   },
   computed: {
     resultMsg: function(){
@@ -44,6 +36,11 @@ export default {
     btnClick(event){
       this.needChange = true
       this.message = Math.round(Math.random()*100)
+      this.anull(this.abc)
+    },
+    anull(a){
+      a = null
+      console.log(this.abc);
     }
   }
 }

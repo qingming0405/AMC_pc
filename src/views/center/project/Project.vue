@@ -52,7 +52,7 @@ export default {
         this.folders = res.folders;
         this.users = res.users;
         this.dataList = this.localDataList(res.info)
-        // console.log(this.dataList);
+        console.log(res.info);
       })
     },
     localDataList(data){
@@ -84,21 +84,44 @@ export default {
       for(let user of this.users){
         options.push({label: user.username+'-'+user.phone, value: user.id})
       }
-      return {
-        label: managerInfo.username + '-' + managerInfo.phone,
-        value: managerInfo.id,
-        options
+      if(managerInfo==null || !managerInfo.hasOwnProperty("username")){
+        return {
+          label: '',
+          value: -1,
+          options
+        }
+      }
+      else{
+        return {
+          label: managerInfo.username,
+          value: managerInfo.id,
+          options
+        }
       }
     },
-    getMembersItem(members){
+    getMembersItem(members, managerInfo){
       const texts = []
       for(let member of members){
-        texts.push({text: member.username+' ', fontBold: this.fontBold(member.company)})
+        if(managerInfo != null && member.id === managerInfo.id){
+          continue
+        }
+        texts.push({text: member.username, fontBold: this.fontBold(member.company)})
       }
       return texts
     },
     fontBold(company){
       return isZZQA(company) ? '' : 'font-bold'
+    },
+    getPersonById(id){
+      id = parseInt(id);
+      let person = null;
+      for(let i=0; i<this.users.length; i++){
+        if(this.users[i].id === id){
+          person = this.users[i];
+          break;
+        }
+      }
+      return person;
     },
     /***事件 */
     btnClick(type){
@@ -138,6 +161,8 @@ export default {
           break
         case 'manager':
           Object.assign(rowItem[pname], result)
+          rowItem[pname].label = rowItem[pname] === '' ? '' : rowItem[pname].label.split('-')[0]
+          rowItem.managerInfo = this.getPersonById(rowItem[pname].value)
           break
         case 'members':
           break
