@@ -2,13 +2,15 @@
   <div id="project">
     <title-bar title="项目管理" :buttons="buttons" @btn-click="btnClick"/>
     <my-table :head-list="headList" :data-list="dataList" 
-               @coo-td-edit-blur="cooTdEditBlur" @td-dbl-click-back="tdDblClickBack"></my-table>
+               @coo-td-edit-blur="cooTdEditBlur" @td-dbl-click-back="tdDblClickBack" @td-dbl-click="tdDblClick"></my-table>
+    <members-set ref="membersSet" v-show="showMembersSet" :users="users"></members-set>
   </div>
 </template>
 
 <script>
 import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {cstTdType,MyTable} from 'components/common/table/MyTable.js'
+import MembersSet from './MembersSet.vue'
 
 import {getCurUser, isZZQA} from 'common/util.js'
 import {getProjectInfo} from 'network/project.js'
@@ -17,7 +19,8 @@ export default {
   name: 'Project',
   components: {
     TitleBar,
-    MyTable
+    MyTable,
+    MembersSet
   },
   data() {
     return {
@@ -38,7 +41,8 @@ export default {
       dataList: [],
       newDataId: -1,
       folders: [],
-      users: []
+      users: [],
+      showMembersSet: false
     }
   },
   created(){
@@ -99,13 +103,13 @@ export default {
         }
       }
     },
-    getMembersItem(members, managerInfo){
+    getMembersItem(memberInfo, managerInfo){
       const texts = []
-      for(let member of members){
+      for(let member of memberInfo){
         if(managerInfo != null && member.id === managerInfo.id){
           continue
         }
-        texts.push({text: member.username, fontBold: this.fontBold(member.company)})
+        texts.push({id: member.id, text: member.username, label: member.username+'-'+member.phone, fontBold: this.fontBold(member.company)})
       }
       return texts
     },
@@ -152,6 +156,14 @@ export default {
           break
       }
     },
+    tdDblClick(rowItem,pname){
+      switch(pname){
+        case 'members':
+          this.$refs.membersSet.initMembersSet(rowItem, rowItem[pname])
+          this.showMembersSet = true
+          break
+      }
+    },
     tdDblClickBack(rowItem,pname,result){
       switch(pname){
         case 'folder':
@@ -163,10 +175,21 @@ export default {
           Object.assign(rowItem[pname], result)
           rowItem[pname].label = rowItem[pname] === '' ? '' : rowItem[pname].label.split('-')[0]
           rowItem.managerInfo = this.getPersonById(rowItem[pname].value)
-          break
-        case 'members':
+          this.updateMembers(rowItem, rowItem.memberInfo, rowItem.managerInfo) //将某个项目成员转为项目管理员
           break
       }
+    },
+    updateMembers(rowItem, newMembers, managerInfo=null){
+      const memberInfo = []
+      let person
+      for(let item of newMembers){
+        person = this.getPersonById(item.id)
+        if(person != null){
+          memberInfo.push(person)
+        }
+      }
+      rowItem.memberInfo = memberInfo
+      rowItem.members = this.getMembersItem(memberInfo, managerInfo)
     }
   }
 }

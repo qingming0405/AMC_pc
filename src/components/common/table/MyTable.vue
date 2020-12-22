@@ -135,6 +135,8 @@ export default {
             this.emitTdDblClickBack(rowItem,pname,res)
           })
           break
+        case cstTdType.MULTI_TEXT:
+          this.$emit('td-dbl-click', rowItem, pname)
       }
       
     },

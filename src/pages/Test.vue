@@ -20,7 +20,6 @@ export default {
   },
   computed: {
     resultMsg: function(){
-      console.log('bbbbbbb');
       let result = ''
       if(this.needChange){
         result = 'a' + this.message
@@ -34,13 +33,16 @@ export default {
   },
   methods: {
     btnClick(event){
+      let arr1 = [{id:1, label:"赵"}, {id:2, label:"钱"}]
+      let arr2 = this.deepCopy(arr1)
+      arr2[1].label = '孙'
+      console.log(arr2);
+      console.log(arr1);
       this.needChange = true
       this.message = Math.round(Math.random()*100)
-      this.anull(this.abc)
     },
-    anull(a){
-      a = null
-      console.log(this.abc);
+    deepCopy(obj){
+      return JSON.parse(JSON.stringify(obj))
     }
   }
 }

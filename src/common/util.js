@@ -24,6 +24,11 @@ export function isZZQA(company){
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/* 深度拷贝 */
+export function deepCopy(obj){
+  return JSON.parse(JSON.stringify(obj))
+}
+
 /*是否为有效数据*/
 export function isValidData(data,valid_type=validType.VALID_ALL,minLength=0,maxLength=0) {
   if(data==null || data==="null"){
