@@ -4,12 +4,14 @@ import router from './router'
 import store from './store'
 
 import MyPop from 'components/common/pop/Popbox.js'
-import Combobox from 'components/common/combobox/Combobox.js'
+import Select from 'components/common/select/Select.js'
+import MultiSelect from 'components/common/multiselect/MultiSelect.js'
 
 Vue.config.productionTip = false
 
 Vue.use(MyPop)
-Vue.use(Combobox)
+Vue.use(Select)
+Vue.use(MultiSelect)
 
 new Vue({
   router,

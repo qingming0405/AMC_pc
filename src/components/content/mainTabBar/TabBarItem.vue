@@ -16,9 +16,12 @@ export default {
   },
   methods: {
     itemClick() {
-      this.$router.replace(this.path).catch(err => {
-        console.log(err)
+      this.$router.push(this.path).catch(err => {
+        // console.log('输出报错', err)
       })
+      // this.$router.replace(this.path).catch(err => {
+      //   console.log(err)
+      // })
     }
   }
 }

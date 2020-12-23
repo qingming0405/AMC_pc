@@ -83,7 +83,7 @@ input[type='checkbox']{
 }
 .check-label input[type='checkbox']{
   vertical-align: middle;
-  margin-right: 3px;
+  margin-right: -3px;
 }
 /*表单项*/
 .form-item-div{
@@ -219,7 +219,7 @@ input[type='checkbox']{
   background: #D1E0FF;
 }
 /***********************************带检索下拉选择***********************************/
-.combobox{
+.select{
   z-index: 200;
   position: absolute;
   top: 0px;
@@ -242,7 +242,7 @@ input[type='checkbox']{
   background: #D1E0FF;
   text-align: center;
 }
-.combobox ul{
+.select ul{
   margin: 2px 0px 0px 0px;
   padding: 0;
   border: 1px solid #597DD2;
@@ -255,7 +255,7 @@ input[type='checkbox']{
   max-width: 150%;
   overflow-y: auto;
 }
-.combobox ul>li{
+.select ul>li{
   padding: 0px 3px;
   font-size: 16px;
   font-weight: normal;
@@ -267,7 +267,7 @@ input[type='checkbox']{
   white-space: nowrap;
   text-align: center;
 }
-.combobox ul>li:hover{
+.select ul>li:hover{
   background: #D1E0FF;
 }
 /***********************************复选下拉框***********************************/

@@ -17,9 +17,18 @@
             <input v-else-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
             <span v-else-if="headItem.type === cstTdType.BUTTON" class="td-button" @click="tdBtnClick(rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</span>
-            <div v-else-if="headItem.type === cstTdType.COMBOBOX" @dblclick="tdDblClick($event, cstTdType.COMBOBOX, rowItem, headItem.pname)">{{rowItem[headItem.pname].label}}</div>
+            <div v-else-if="headItem.type === cstTdType.SELECT" @dblclick="tdDblClick($event, cstTdType.SELECT, rowItem, headItem.pname)">{{rowItem[headItem.pname].label}}</div>
             <div v-else-if="headItem.type === cstTdType.MULTI_TEXT" @dblclick="tdDblClick($event, cstTdType.MULTI_TEXT, rowItem, headItem.pname)">
               <span v-for="(textItem, index) in rowItem[headItem.pname]" :key="index" :class="fontBold(textItem.fontBold)">{{textItem.text}}</span>
+            </div>
+            <div v-else-if="headItem.type === cstTdType.MULTI_CHECKBOX" class="multi-checkbox">
+              <label v-for="(checkItem, index) in rowItem[headItem.pname]" :key="index" class="check-label">
+                <input type="checkbox" v-model="checkItem.check">
+                {{checkItem.label}}
+              </label>
+            </div>
+            <div v-else-if="headItem.type === cstTdType.MULTI_SELECT" @dblclick="tdDblClick($event, cstTdType.MULTI_SELECT, rowItem, headItem.pname)">
+              {{rowItem[headItem.pname].label}}
             </div>
             <div v-else-if="headItem.type === cstTdType.COO_EDIT" contenteditable="true" @blur="tdEditBlur($event, rowItem, headItem.pname, true)">{{rowItem[headItem.pname]}}</div>
             <div v-else>{{rowItem[headItem.pname]}}</div>
@@ -126,8 +135,8 @@ export default {
         height: e.path[1].offsetHeight + 'px',
       }
       switch(tdType){
-        case cstTdType.COMBOBOX:
-          this.$combobox(Object.assign(
+        case cstTdType.SELECT:
+          this.$select(Object.assign(
             {},
             rowItem[pname],
             {styleObj}
@@ -137,6 +146,16 @@ export default {
           break
         case cstTdType.MULTI_TEXT:
           this.$emit('td-dbl-click', rowItem, pname)
+          break
+        case cstTdType.MULTI_SELECT:
+          this.$multiselect(Object.assign(
+            {},
+            rowItem[pname],
+            {styleObj}
+          )).then(res => {
+            this.emitTdDblClickBack(rowItem,pname,res)
+          })
+          break
       }
       
     },
@@ -216,5 +235,8 @@ export default {
   td .td-button{
     color: #63BBFF;
     cursor: pointer;
+  }
+  .multi-checkbox label{
+    margin: 0px 5px;
   }
 </style>

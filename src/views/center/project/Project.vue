@@ -34,9 +34,9 @@ export default {
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.SHOW},
         {label: '项目名称', pname: 'name', showArrow: true, type: cstTdType.COO_EDIT},
-        {label: '工艺段/风场', pname: 'folder', showArrow: true, type: cstTdType.COMBOBOX},
-        {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.COMBOBOX},
-        {label: '项目成员', pname: 'members', showArrow: true, type: cstTdType.MULTI_TEXT},
+        {label: '工艺段/风场', pname: 'folder', showArrow: true, type: cstTdType.SELECT},
+        {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.SELECT},
+        {label: '项目成员', pname: 'members', showArrow: false, type: cstTdType.MULTI_TEXT},
       ],
       dataList: [],
       newDataId: -1,
@@ -56,7 +56,6 @@ export default {
         this.folders = res.folders;
         this.users = res.users;
         this.dataList = this.localDataList(res.info)
-        console.log(res.info);
       })
     },
     localDataList(data){

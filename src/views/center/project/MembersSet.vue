@@ -93,7 +93,7 @@ export default {
         width: e.path[0].offsetWidth + 'px',
         height: e.path[0].offsetHeight + 'px',
       }
-      this.$combobox(Object.assign(
+      this.$select(Object.assign(
         {},
         item,
         {styleObj}

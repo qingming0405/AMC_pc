@@ -1,10 +1,10 @@
 <template>
-  <div ref="combobox" class="combobox" v-show="isShow" :style="styleObj" @click="comboClick">
+  <div ref="select" class="select" v-show="isShow" :style="styleObj" @click="selectClick">
     <div class="cb-ipt-div">
       <input type="text" v-model="curLabel" v-focus>
     </div>
     <ul>
-      <li v-for="(item,index) in curOptions" :key="index" :pid="item.value" :title="item.label" @click="itemClick(item)">
+      <li v-for="(item,index) in curOptions" :key="index" :pid="item.value" @click="itemClick(item)">
         {{item.label}}
       </li>
     </ul>
@@ -16,7 +16,7 @@
 import Vue from 'vue'
 
 export default {
-  name: 'Combobox',
+  name: 'Select',
   props: {
     isShow: false,
     label: {
@@ -80,7 +80,7 @@ export default {
     }
   },
   methods: {
-    showCombo(){
+    showSelect(){
       this.isShow = true;
       this.curLabel = this.label
       setTimeout(() => {
@@ -92,7 +92,7 @@ export default {
       });
       return this.promise;
     },
-    closeCombo(){
+    closeSelect(){
       this.isShow = false;
       setTimeout(() => {
         this.$destroy();
@@ -106,14 +106,14 @@ export default {
       // this.label = item.label
       // this.value = item.value
       this.resolve && this.resolve(item)
-      this.closeCombo()
+      this.closeSelect()
     },
-    comboClick(e){
+    selectClick(e){
       e.stopPropagation()
     },
     clickOutside(e){
       this.resolve({label:this.label, value:this.value})
-      this.closeCombo()
+      this.closeSelect()
     }
   }
 }
