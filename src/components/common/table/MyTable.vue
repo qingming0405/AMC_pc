@@ -5,12 +5,12 @@
         <tr>
           <th v-for="(headItem,col) in headList" :key="col" pname="headItem.pname">
             {{headItem.label}}
-            <span :class="showArrow(headItem.showArrow)"></span>
+            <span :class="showArrow(headItem.showArrow)" @click="arrowClick(headItem.pname)"></span>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(rowItem, row) in dataList" :key="row" :pid="rowItem.id" :class="[trBgColor(row), fontBold(rowItem.fontBold)]" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
+        <tr v-for="(rowItem, row) in curDataList" :key="row" :pid="rowItem.id" :class="[trBgColor(row), fontBold(rowItem.fontBold)]" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
           <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname">
             <div v-if="headItem.type === cstTdType.SHOW">{{rowItem[headItem.pname]}}</div>
             <div v-else-if="headItem.type === cstTdType.EDIT" contenteditable="true" @blur="tdEditBlur($event, rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</div>
@@ -57,8 +57,23 @@ export default {
   data() {
     return {
       cstTdType,
+      curDataList: [],
       curIndex: -1,
+      filterMap: {}
     }
+  },
+  watch: {
+    dataList: function(newValue, oldValue){
+      this.curDataList = newValue.filter(rowItem => {
+        return rowItem.showRow===undefined ? true : rowItem.showRow
+      })
+    }
+  },
+  created(){
+
+  },
+  mounted(){
+
   },
   components: {
     
@@ -94,7 +109,7 @@ export default {
     delRows(){
 
     },
-    /***事件方法区 */
+    /***条件判定区 */
     showArrow(isShow){
       return isShow? 'arrow-icon' : ''
     },
@@ -113,9 +128,13 @@ export default {
       }
       return ''
     },
+    /***事件方法区 */
     selectTr(rowItem, index){
       this.curIndex = index
       rowItem['needUpdate'] = true
+    },
+    arrowClick(pname){
+
     },
     tdEditBlur(e, rowItem, pname, isCoo=false){
       rowItem[pname] = e.target.textContent
@@ -189,7 +208,7 @@ export default {
     background: var(--bgcolor-wall);
   }
   .select-tr,tr:hover{
-    background: var(--bgcolor-tr-hover);
+    background: var(--bgcolor-hover);
   }
   th,td{
     border: 1px solid var(--border-table);
@@ -233,7 +252,7 @@ export default {
     width: 32px;
   }
   td .td-button{
-    color: #63BBFF;
+    color: var(--color-hyper);
     cursor: pointer;
   }
   .multi-checkbox label{

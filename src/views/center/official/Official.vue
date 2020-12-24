@@ -58,6 +58,7 @@ export default {
     localDataList(data){
       for(let i=0; i<data.length; i++){
         data[i].needUpdate = false
+        data[i].showRow = true
         data[i].checkRow = false
         data[i].order = i+1
         data[i].qrCode = '查看'

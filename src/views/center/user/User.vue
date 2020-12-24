@@ -67,6 +67,7 @@ export default {
     localDataList(data){
       for(let i=0; i<data.length; i++){
         data[i].needUpdate = false
+        data[i].showRow = true
         data[i].fontBold = isZZQA(data[i].company) ? '' : 'font-bold'
         data[i].checkRow = false
         data[i].order = i+1
@@ -108,6 +109,7 @@ export default {
     createUser(id,username,company,post,phone,account,password,isAdmin,nickname,iconurl,openIds){
       const obj = {};
       obj.needUpdate = false;
+      obj.showRow = true
       obj.fontBold = ''
       obj.checkRow = false
       obj.order = 1
