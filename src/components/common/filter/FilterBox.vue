@@ -1,9 +1,9 @@
 <template>
   <div id="filterBox" class="modal-bg" v-show="isShow">
-    <div class="modal-container">
-      <div class="modal-body">
+    <div class="modal-container filter-container">
+      <div class="modal-body filter-body">
         <div class="filter-condition">
-          <span>按值过滤：</span>
+          <div>按值过滤：</div>
           <input type="text" v-model="curLabel" placeholder="搜索">
         </div>
         <div class="filter-control">
@@ -11,7 +11,7 @@
           <span @click="onClearAll">清除</span>
         </div>
         <ul class="filter-content">
-          <li v-for="(item, index) in curOptions" :key="index">
+          <li v-for="(item, index) in curOptions" :key="index" :title="item.label">
             <label class="check-label">
               <input type="checkbox" v-model="item.check">
               {{item.label}}
@@ -36,10 +36,6 @@ export default {
     options: {
       type: Array,
       default: () => []
-    },
-    backConfig: { 
-      type: Object,
-      default: () => null
     }
   },
   data(){
@@ -79,7 +75,9 @@ export default {
     },
     /**事件监听 */
     onSure(){
-      this.resolve && this.resolve({options, backConfig})
+      this.resolve && this.resolve({
+        options: this.options
+      })
       this.closeFilterBox()
     },
     onCancel(){
@@ -101,19 +99,34 @@ export default {
 </script>
 
 <style scoped>
+  .filter-container{
+    width: 240px;
+    padding: 15px 20px 0px 20px;
+    font-size: var(--font-size-small);
+  }
+  .filter-body{
+    font-size: inherit;
+  }
+  .filter-condition{
+    font-size: inherit;
+  }
+  .filter-condition div{
+    font-size: inherit;
+  }
   .filter-condition input{
-    font-size: 16px;
+    font-size: var(--font-size);
     border: 1px solid #d2d1d1;
     padding-left: 3px;
     width: 100%;
     height: 26px;
   }
-  .check-control{
+  .filter-control{
+    font-size: var(--font-size-small);
     text-align: right;
     word-spacing: 10px;
     color: var(--color-hyper);
   }
-  .check-control span{
+  .filter-control span{
     user-select: none;
     cursor: pointer;
     margin-left: 10px;
@@ -127,7 +140,7 @@ export default {
     overflow-y: auto;
   }
   .filter-content li{
-    font-size: var(--font-size);
+    font-size: inherit;
     font-weight: normal;
     height: 30px;
     line-height: 30px;
@@ -138,5 +151,8 @@ export default {
   }
   .filter-content li:hover{
     background: var(--bgcolor-hover);
+  }
+  .filter-content label{
+    font-size: inherit;
   }
 </style>

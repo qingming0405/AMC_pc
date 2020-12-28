@@ -12,7 +12,8 @@
       <tbody>
         <tr v-for="(rowItem, row) in curDataList" :key="row" :pid="rowItem.id" :class="[trBgColor(row), fontBold(rowItem.fontBold)]" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
           <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname">
-            <div v-if="headItem.type === cstTdType.SHOW">{{rowItem[headItem.pname]}}</div>
+            <div v-if="headItem.type === cstTdType.ORDER">{{row + 1}}</div>
+            <div v-else-if="headItem.type === cstTdType.SHOW">{{rowItem[headItem.pname]}}</div>
             <div v-else-if="headItem.type === cstTdType.EDIT" contenteditable="true" @blur="tdEditBlur($event, rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</div>
             <input v-else-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
@@ -40,7 +41,7 @@
 </template>
 
 <script>
-import {cstTdType} from './MyTable.js'
+import {cstTdType, getCurOptions, getFilterOptions, getFilterDataList} from './MyTable.js'
 
 export default {
   name: 'MyTable',
@@ -59,21 +60,22 @@ export default {
       cstTdType,
       curDataList: [],
       curIndex: -1,
-      filterMap: {}
+      filterMap: null,
     }
   },
   watch: {
     dataList: function(newValue, oldValue){
-      this.curDataList = newValue.filter(rowItem => {
-        return rowItem.showRow===undefined ? true : rowItem.showRow
-      })
+      this.curDataList = newValue.slice(0)
+      // this.curDataList = newValue.filter(rowItem => {
+      //   return rowItem.showRow===undefined ? true : rowItem.showRow
+      // })
     }
   },
   created(){
-
+    
   },
   mounted(){
-
+    this.initFilterMap()
   },
   components: {
     
@@ -83,9 +85,12 @@ export default {
   },
   methods: {
     /***公共方法区 */
-    reOrderDataList(){
-      for(let i in this.dataList){
-        this.dataList[i].order = parseInt(i)+1
+    initFilterMap(){
+      this.filterMap = {}
+      for(let headItem of this.headList){
+        if(headItem.showArrow){
+          this.filterMap[headItem.pname] = []
+        }
       }
     },
     getUpdateRows(){
@@ -117,10 +122,7 @@ export default {
       if(this.curIndex === index){
         return 'select-tr'
       }
-      else if(index%2 == 1){
-        return 'tr-bgcolor2'
-      }
-      return 'tr-bgcolor1'
+      return ''
     },
     fontBold(fontBold){
       if(typeof fontBold !== 'undefined' && fontBold === 'font-bold'){
@@ -134,7 +136,14 @@ export default {
       rowItem['needUpdate'] = true
     },
     arrowClick(pname){
-
+      const {options, curBeforeList} = getCurOptions(pname, this.headList, this.filterMap, this.dataList, this.curDataList)
+      this.$filterbox({options}).then(res => {
+        if(res){
+          this.filterMap[pname] = getFilterOptions(res.options)
+          this.curDataList = getFilterDataList(pname, this.dataList, this.filterMap[pname], curBeforeList)
+          this.curIndex = -1
+        }
+      })
     },
     tdEditBlur(e, rowItem, pname, isCoo=false){
       rowItem[pname] = e.target.textContent
@@ -201,10 +210,10 @@ export default {
   tr,td{
     height: 50px;
   }
-  .tr-bgcolor1{
+  tr:nth-child(odd){
     background: var(--bgcolor-table);
   }
-  .tr-bgcolor2{
+  tr:nth-child(even){
     background: var(--bgcolor-wall);
   }
   .select-tr,tr:hover{

@@ -33,7 +33,7 @@ export default {
       ],
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
-        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.SHOW},
+        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER},
         {label: '姓名', pname: 'username', showArrow: true, type: cstTdType.EDIT},
         {label: '手机号码', pname: 'phone', showArrow: true, type: cstTdType.EDIT},
         {label: '公司名称', pname: 'company', showArrow: true, type: cstTdType.COO_EDIT},
@@ -67,10 +67,9 @@ export default {
     localDataList(data){
       for(let i=0; i<data.length; i++){
         data[i].needUpdate = false
-        data[i].showRow = true
+        // data[i].showRow = true
         data[i].fontBold = isZZQA(data[i].company) ? '' : 'font-bold'
         data[i].checkRow = false
-        data[i].order = i+1
         if(data[i].iconurl==null || data[i].iconurl==="" || data[i].iconurl==="null" || data[i].iconurl === "../../assets/img/image/portrait.png"){
           //没有头像，或旧版本
           data[i].iconurl = this.defaultIconUrl
@@ -109,10 +108,9 @@ export default {
     createUser(id,username,company,post,phone,account,password,isAdmin,nickname,iconurl,openIds){
       const obj = {};
       obj.needUpdate = false;
-      obj.showRow = true
+      // obj.showRow = true
       obj.fontBold = ''
       obj.checkRow = false
-      obj.order = 1
       obj.id=id;
       obj.username=username;
       obj.company=company;

@@ -2,7 +2,7 @@
   <div ref="multiSelect" class="select" v-show="isShow" :style="styleObj" @click="selectClick">
     <ul>
       <li v-for="(item,index) in options" :key="index" :pid="item.value">
-        <label class="check-label">
+        <label class="check-label" :title="item.label">
           <input type="checkbox" v-model="item.check">
           {{item.label}}
         </label>

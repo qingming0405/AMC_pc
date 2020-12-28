@@ -28,7 +28,7 @@ export default {
       ],
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
-        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.SHOW},
+        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER},
         {label: '姓名', pname: 'userName', showArrow: true, type: cstTdType.SHOW},
         {label: '项目名称', pname: 'projectName', showArrow: true, type: cstTdType.SHOW},
         {label: '工艺段/风场', pname: 't_name', showArrow: true, type: cstTdType.SHOW},
@@ -56,9 +56,8 @@ export default {
     localDataList(data){
       for(let i=0; i<data.length; i++){
         data[i].needUpdate = false
-        data[i].showRow = true
+        // data[i].showRow = true
         data[i].checkRow = false
-        data[i].order = i+1
         data[i].userId = data[i].user_id;
         data[i].userName = data[i].user.username;
         data[i].company = data[i].user.company;

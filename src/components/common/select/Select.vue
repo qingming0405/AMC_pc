@@ -4,7 +4,7 @@
       <input type="text" v-model="curLabel" v-focus>
     </div>
     <ul>
-      <li v-for="(item,index) in curOptions" :key="index" :pid="item.value" @click="itemClick(item)">
+      <li v-for="(item,index) in curOptions" :key="index" :title="item.label" @click="itemClick(item)">
         {{item.label}}
       </li>
     </ul>

@@ -31,7 +31,7 @@ export default {
       ],
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
-        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.SHOW},
+        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER},
         {label: '公众号名称', pname: 'name', showArrow: true, type: cstTdType.EDIT},
         {label: '模板ID', pname: 'template_id', showArrow: true, type: cstTdType.EDIT},
         {label: '微信推送地址', pname: 'url', showArrow: true, type: cstTdType.EDIT},
@@ -58,9 +58,8 @@ export default {
     localDataList(data){
       for(let i=0; i<data.length; i++){
         data[i].needUpdate = false
-        data[i].showRow = true
+        // data[i].showRow = true
         data[i].checkRow = false
-        data[i].order = i+1
         data[i].qrCode = '查看'
       }
       return data;

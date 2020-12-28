@@ -1,6 +1,7 @@
 import MyTable from './MyTable.vue'
 
 const cstTdType = {
+  'ORDER': 'order',//序号
   'SHOW': 'show',//仅显示
   'EDIT': 'edit',//仅编辑
   'CHECKBOX': 'checkbox',//选择
@@ -13,6 +14,152 @@ const cstTdType = {
   'COO_EDIT': 'coo_edit',//交互编辑
 }
 
+//////////////////////////////////////////////////筛选窗口处理begin//////////////////////////////////////////////////////////
+// 获取可选项
+function getCurOptions(pname, headList, filterMap, srcDataList, curDataList){
+  const filterHeaderList = getFilterHeadList(headList)
+  const curBeforeList = getDataListBeforeCurFilter(pname, filterMap, baseTableList(filterHeaderList, srcDataList))
+  const curOptions_obj = getCurOptionsObject(pname, curBeforeList)
+  setCheckedOptions(curOptions_obj, pname, baseTableList(filterHeaderList, curDataList))
+  return {
+    options: getOptions(curOptions_obj),
+    curBeforeList
+  }
+}
+
+// 需要处理的表头
+function getFilterHeadList(headList){
+  return headList.filter(headItem => {
+    return headItem.showArrow
+  })
+}
+
+// 重新构造的基础表格数据
+function baseTableList(headList, dataList){
+  const baseList = []
+  let item
+  for(let rowItem of dataList){
+    item = {}
+    item.id = rowItem.id
+    for(let headItem of headList){
+      item[headItem.pname] = getTdLabel(headItem.type, rowItem, headItem.pname)
+    }
+    baseList.push(item)
+  }
+  return baseList
+}
+
+function getTdLabel(tdType, rowItem, pname){
+  let label = ''
+  switch(tdType){
+    case cstTdType.SHOW:
+    case cstTdType.EDIT:
+    case cstTdType.COO_EDIT:
+      label = rowItem[pname]
+      break
+    case cstTdType.SELECT:
+      label = rowItem[pname].label
+      break 
+  }
+  return label
+}
+
+// 当前列全选时的表格（注意为构造后的基础数据）
+function getDataListBeforeCurFilter(pname, filterMap, srcDataList){
+  let dataList = srcDataList
+  for(let key in filterMap){
+    if(key === pname){
+      continue
+    }
+    dataList = filterDataList(dataList, key, filterMap[key])
+  }
+  return dataList
+}
+
+// 当前显示的可选列表，先默认设置为“未勾选”
+function getCurOptionsObject(pname, dataList){
+  const curOptions = {}
+  if(dataList.length > 0){
+    dataList.forEach(rowItem => {
+      curOptions[rowItem[pname]] = {
+        label: rowItem[pname],
+        check: false
+      }
+    });
+  }
+  return curOptions
+}
+
+// 当前表格中显示的行需要标记为“勾选”
+function setCheckedOptions(curOptions, pname, curDataList){
+  if(curDataList.length > 0){
+    curDataList.forEach(rowItem => {
+      curOptions[rowItem[pname]].check = true
+    });
+  }
+}
+
+function filterDataList(dataList, pname, checkArr){
+  if(checkArr==null || checkArr.length===0){
+    return dataList.slice(0)
+  }
+  return dataList.filter(rowItem => {
+    return isMatchingText(rowItem[pname], checkArr) ? true : false
+  })
+}
+
+function isMatchingText(str,checkArr){
+  for(let item of checkArr){
+    if(item.check && item.label === str){
+      return true
+    }
+  }
+  return false;
+}
+
+function getOptions(optionsObj){
+  const options = []
+  for(let label in optionsObj){
+    options.push({
+      label,
+      check: optionsObj[label].check
+    })
+  }
+  return options
+}
+
+function getFilterOptions(options){
+  let i = 0
+  for(let item of options){
+    if(item.check === false){
+      return options
+    }
+  }
+  return []
+}
+
+function getFilterDataList(pname, srcDataList, options, curBeforeList){
+  const baseFilterList = filterDataList(curBeforeList, pname, options)
+  const ids = getIds(baseFilterList)
+  const newDataList = []
+  let index
+  srcDataList.forEach(rowItem => {
+    index = ids.indexOf(rowItem.id)
+    if(index >= 0){
+      newDataList.push(rowItem)
+      ids.splice(index, 1)
+    }   
+  });
+  return newDataList
+}
+
+function getIds(dataList){
+  return dataList.map(item => {
+    return item.id
+  })
+}
+//////////////////////////////////////////////////筛选窗口处理end//////////////////////////////////////////////////////////
+
 export{
-  MyTable, cstTdType 
+  MyTable, cstTdType, getCurOptions, getFilterOptions, getFilterDataList
 }
