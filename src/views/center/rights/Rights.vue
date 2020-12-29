@@ -24,6 +24,7 @@ export default {
     return {
       curUser: null,
       buttons:[
+        {label: '清除筛选', type: 'clearFilter'},
         {label: '保存', type: 'saveRights'},
       ],
       headList: [
@@ -61,6 +62,7 @@ export default {
         data[i].userId = data[i].user_id;
         data[i].userName = data[i].user.username;
         data[i].company = data[i].user.company;
+        data[i].fontBold = isZZQA(data[i].company) ? '' : 'font-bold'
         data[i].projectId = data[i].project_id;
         data[i].projectName = data[i].project.name;
         data[i].t_id = data[i].project.t_id;//组织id
@@ -140,11 +142,17 @@ export default {
       }
     },
     /***事件 */
+    clearFilter(){
+      this.$refs.myTable.clearFilter()
+    },
     saveRights(){
 
     },
     btnClick(type){
       switch(type){
+        case 'clearFilter':
+          this.clearFilter()
+          break
         case 'saveRights':
           this.saveRights()
           break

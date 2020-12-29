@@ -27,6 +27,7 @@ export default {
     return {
       defaultIconUrl: require('assets/img/user/portrait.png'),
       buttons:[
+        {label: '清除筛选', type: 'clearFilter'},
         {label: '新建', type: 'addUser'},
         {label: '保存', type: 'saveUsers'},
         {label: '删除', type: 'deleteUsers'}
@@ -82,6 +83,9 @@ export default {
     /***事件 */
     btnClick(type){
       switch(type){
+        case 'clearFilter':
+          this.clearFilter()
+          break
         case 'addUser':
           this.addUser()
           break
@@ -92,10 +96,12 @@ export default {
           this.deleteUsers()
       }
     },
+    clearFilter(){
+      this.$refs.myTable.clearFilter()
+    },
     addUser() {
       this.dataList.unshift(this.createUser(this.newDataId,"","","","","","",0,"",this.defaultIconUrl,[]))
       this.newDataId--
-      this.$refs.myTable.reOrderDataList()
     },
     saveUsers() {
       this.$pop(this.dataList.toString())

@@ -26,6 +26,7 @@ export default {
     return {
       curUser: null,
       buttons:[
+        {label: '清除筛选', type: 'clearFilter'},
         {label: '新建', type: 'addUser'},
         {label: '保存', type: 'saveProjects'},
         {label: '删除', type: 'deleteProjects'}
@@ -129,6 +130,9 @@ export default {
     /***事件 */
     btnClick(type){
       switch(type){
+        case 'clearFilter':
+          this.clearFilter()
+          break
         case 'addProject':
           this.addProject()
           break
@@ -138,6 +142,9 @@ export default {
         case 'deleteProjects':
           this.deleteProjects()
       }
+    },
+    clearFilter(){
+      this.$refs.myTable.clearFilter()
     },
     addProject(){
 

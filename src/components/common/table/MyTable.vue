@@ -66,9 +66,6 @@ export default {
   watch: {
     dataList: function(newValue, oldValue){
       this.curDataList = newValue.slice(0)
-      // this.curDataList = newValue.filter(rowItem => {
-      //   return rowItem.showRow===undefined ? true : rowItem.showRow
-      // })
     }
   },
   created(){
@@ -92,6 +89,10 @@ export default {
           this.filterMap[headItem.pname] = []
         }
       }
+    },
+    clearFilter() {
+      this.curDataList = this.dataList.slice(0)
+      this.initFilterMap()
     },
     getUpdateRows(){
       return this.dataList.filter(rowItem => rowItem.needUpdate)

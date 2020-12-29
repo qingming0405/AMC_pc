@@ -25,6 +25,7 @@ export default {
   data() {
     return {
       buttons:[
+        {label: '清除筛选', type: 'clearFilter'},
         {label: '新建', type: 'addOfficial'},
         {label: '保存', type: 'saveOfficials'},
         {label: '删除', type: 'deleteOfficials'}
@@ -67,6 +68,9 @@ export default {
     /***事件 */
     btnClick(type){
       switch(type){
+        case 'clearFilter':
+          this.clearFilter()
+          break
         case 'addOfficial':
           this.addOfficial()
           break
@@ -76,6 +80,9 @@ export default {
         case 'deleteOfficials':
           this.deleteOfficials()
       }
+    },
+    clearFilter(){
+      this.$refs.myTable.clearFilter()
     },
     addOfficial(){
       this.$pop('添加公众号')
