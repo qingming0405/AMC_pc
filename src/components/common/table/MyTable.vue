@@ -201,6 +201,10 @@ export default {
     height: calc(100% - 75px);
     margin: 0px 30px 30px 30px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .my-table::-webkit-scrollbar {
+    display: none;
   }
   table{
     width: 100%;
@@ -245,6 +249,7 @@ export default {
     min-width: 30px;
   }
   th{
+    padding: 5px 15px;
     font-size: var(--font-size-h2);
     color: var(--color-label);
     background-color: var(--bgcolor-th);
