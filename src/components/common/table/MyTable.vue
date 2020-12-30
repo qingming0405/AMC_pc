@@ -69,7 +69,7 @@ export default {
     }
   },
   created(){
-    
+    this.curDataList = this.dataList.slice(0)
   },
   mounted(){
     this.initFilterMap()
@@ -202,12 +202,30 @@ export default {
     margin: 0px 30px 30px 30px;
     overflow-y: auto;
   }
-  .my-table table{
+  table{
     width: 100%;
     background: var(--bgcolor-table);
     border: 1px solid var(--border-table);
     border-collapse: collapse;
   }
+  /* tbody{
+    position: sticky;
+    top: 50px;
+  } */
+  /* thead, tr{
+    display:table;
+    width:100%;
+    table-layout:fixed;
+  }
+  tbody{
+    display:block;
+    height:300px;
+    overflow-y:scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+  tbody::-webkit-scrollbar {
+    display: none;
+  } */
   tr,td{
     height: 50px;
   }
@@ -230,7 +248,9 @@ export default {
     font-size: var(--font-size-h2);
     color: var(--color-label);
     background-color: var(--bgcolor-th);
-    position: relative;
+    position: sticky;
+    top: -1px;
+    z-index: 9;
   }
   th .arrow-icon{
     position: absolute;
