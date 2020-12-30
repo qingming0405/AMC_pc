@@ -32,11 +32,11 @@ export default {
         {label: '删除', type: 'deleteProjects'}
       ],
       headList: [
-        {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
-        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER},
+        {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX, style: {width: '30px'}},
+        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER, style: {width: '50px'}},
         {label: '项目名称', pname: 'name', showArrow: true, type: cstTdType.COO_EDIT},
         {label: '工艺段/风场', pname: 'folder', showArrow: true, type: cstTdType.SELECT},
-        {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.SELECT},
+        {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.SELECT, style: {width: '140px'}},
         {label: '项目成员', pname: 'members', showArrow: false, type: cstTdType.MULTI_TEXT},
       ],
       dataList: [],

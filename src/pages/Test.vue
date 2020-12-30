@@ -18,15 +18,15 @@ export default {
   data() {
     return {
       headList: [
-        {label: 'xxxxx第1列xxxxxyyyyyyyyyy', pname: 'name1', showArrow: false, type: cstTdType.SHOW},
-        {label: 'xxxxx第2列xxxxx', pname: 'name2', showArrow: false, type: cstTdType.SHOW},
-        {label: 'xxxxx第3列xxxxx', pname: 'name3', showArrow: false, type: cstTdType.SHOW},
-        {label: 'xxxxx第4列xxxxx', pname: 'name4', showArrow: false, type: cstTdType.SHOW},
-        {label: 'xxxxx第5列xxxxx', pname: 'name5', showArrow: false, type: cstTdType.SHOW},
-        {label: 'xxxxx第6列xxxxx', pname: 'name6', showArrow: false, type: cstTdType.SHOW},
-        {label: 'xxxxx第7列xxxxx', pname: 'name7', showArrow: false, type: cstTdType.SHOW},
-        {label: 'xxxxx第8列xxxxx', pname: 'name8', showArrow: false, type: cstTdType.SHOW},
-        {label: 'xxxxx第9列xxxxx', pname: 'name9', showArrow: false, type: cstTdType.SHOW},
+        {label: 'xxxxx第1列xxxxxyyyyyyyyyy', pname: 'name1', showArrow: false, type: cstTdType.SHOW, style: {width: '200px'}},
+        {label: 'xxxxx第2列xxxxx', pname: 'name2', showArrow: false, type: cstTdType.SHOW, style: ''},
+        {label: 'xxxxx第3列xxxxx', pname: 'name3', showArrow: false, type: cstTdType.SHOW, style: ''},
+        {label: 'xxxxx第4列xxxxx', pname: 'name4', showArrow: false, type: cstTdType.SHOW, style: ''},
+        {label: 'xxxxx第5列xxxxx', pname: 'name5', showArrow: false, type: cstTdType.SHOW, style: ''},
+        {label: 'xxxxx第6列xxxxx', pname: 'name6', showArrow: false, type: cstTdType.SHOW, style: ''},
+        {label: 'xxxxx第7列xxxxx', pname: 'name7', showArrow: false, type: cstTdType.SHOW, style: ''},
+        {label: 'xxxxx第8列xxxxx', pname: 'name8', showArrow: false, type: cstTdType.SHOW, style: ''},
+        {label: 'xxxxx第9列xxxxx', pname: 'name9', showArrow: false, type: cstTdType.SHOW, style: {width: '60px'}},
       ],
       dataList: [],
     }
@@ -127,7 +127,7 @@ export default {
 <style scoped>
   #test{
     padding: 30px;
-    width: 1000px;
+    width: 400px;
     height: 800px;
     font-size: 16px;
     position: relative;

@@ -31,8 +31,8 @@ export default {
         {label: '删除', type: 'deleteOfficials'}
       ],
       headList: [
-        {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX},
-        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER},
+        {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX, style: {width: '30px'}},
+        {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER, style: {width: '50px'}},
         {label: '公众号名称', pname: 'name', showArrow: true, type: cstTdType.EDIT},
         {label: '模板ID', pname: 'template_id', showArrow: true, type: cstTdType.EDIT},
         {label: '微信推送地址', pname: 'url', showArrow: true, type: cstTdType.EDIT},

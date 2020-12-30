@@ -1,17 +1,17 @@
 <template>
   <div class="my-table">
-    <table>
-      <thead>
+    <table ref="table">
+      <thead ref="thead">
         <tr>
-          <th v-for="(headItem,col) in headList" :key="col" pname="headItem.pname">
+          <th v-for="(headItem,col) in headList" :key="col" pname="headItem.pname" :style="headItem.style">
             {{headItem.label}}
             <span :class="showArrow(headItem.showArrow)" @click="arrowClick(headItem.pname)"></span>
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody ref="tbody">
         <tr v-for="(rowItem, row) in curDataList" :key="row" :pid="rowItem.id" :class="[trBgColor(row), fontBold(rowItem.fontBold)]" @click="selectTr(rowItem, row)" @keydown="selectTr(rowItem, row)">
-          <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname">
+          <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname" :style="headItem.style">
             <div v-if="headItem.type === cstTdType.ORDER">{{row + 1}}</div>
             <div v-else-if="headItem.type === cstTdType.SHOW">{{rowItem[headItem.pname]}}</div>
             <div v-else-if="headItem.type === cstTdType.EDIT" contenteditable="true" @blur="tdEditBlur($event, rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</div>
@@ -66,6 +66,11 @@ export default {
   watch: {
     dataList: function(newValue, oldValue){
       this.curDataList = newValue.slice(0)
+    },
+    headList: function(newValue, oldValue){
+      this.$nextTick(() => {
+        this.setTbodyHeight()
+      })
     }
   },
   created(){
@@ -73,6 +78,7 @@ export default {
   },
   mounted(){
     this.initFilterMap()
+    this.setTbodyHeight()
   },
   components: {
     
@@ -82,6 +88,7 @@ export default {
   },
   methods: {
     /***公共方法区 */
+
     initFilterMap(){
       this.filterMap = {}
       for(let headItem of this.headList){
@@ -93,6 +100,11 @@ export default {
     clearFilter() {
       this.curDataList = this.dataList.slice(0)
       this.initFilterMap()
+    },
+    setTbodyHeight(){
+      let tableHeight = this.$refs.table.offsetHeight
+      let theadHeight = this.$refs.thead.offsetHeight
+      this.$refs.tbody.style.height = `${tableHeight-theadHeight}px`
     },
     getUpdateRows(){
       return this.dataList.filter(rowItem => rowItem.needUpdate)
@@ -200,38 +212,29 @@ export default {
     width: calc(100% - 60px);
     height: calc(100% - 75px);
     margin: 0px 30px 30px 30px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .my-table::-webkit-scrollbar {
-    display: none;
   }
   table{
     width: 100%;
+    height: 100%;
     background: var(--bgcolor-table);
     border: 1px solid var(--border-table);
     border-collapse: collapse;
   }
-  /* tbody{
-    position: sticky;
-    top: 50px;
-  } */
-  /* thead, tr{
-    display:table;
-    width:100%;
-    table-layout:fixed;
-  }
   tbody{
-    display:block;
-    height:300px;
-    overflow-y:scroll;
-    -webkit-overflow-scrolling: touch;
+    display: block;
+    height: 100%;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
   tbody::-webkit-scrollbar {
     display: none;
-  } */
-  tr,td{
+  }
+  tr{
+    display:table;
+    width:100%;
     height: 50px;
+    table-layout:fixed;
   }
   tr:nth-child(odd){
     background: var(--bgcolor-table);
@@ -243,19 +246,17 @@ export default {
     background: var(--bgcolor-hover);
   }
   th,td{
+    /* padding: 5px 15px; */
     border: 1px solid var(--border-table);
     text-align: center;
     outline: none;
     min-width: 30px;
   }
   th{
-    padding: 5px 15px;
     font-size: var(--font-size-h2);
     color: var(--color-label);
     background-color: var(--bgcolor-th);
-    position: sticky;
-    top: -1px;
-    z-index: 9;
+    position: relative;
   }
   th .arrow-icon{
     position: absolute;
