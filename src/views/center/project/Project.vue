@@ -1,7 +1,7 @@
 <template>
   <div id="project">
     <title-bar title="项目管理" :buttons="buttons" @btn-click="btnClick"/>
-    <my-table :head-list="headList" :data-list="dataList" 
+    <my-table ref="myTable" :head-list="headList" :data-list="dataList" 
                @coo-td-edit-blur="cooTdEditBlur" @td-dbl-click-back="tdDblClickBack" @td-dbl-click="tdDblClick"></my-table>
     <members-set ref="membersSet" v-show="showMembersSet" :users="users"></members-set>
   </div>

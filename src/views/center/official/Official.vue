@@ -1,7 +1,7 @@
 <template>
   <div id="official">
     <title-bar title="公众号管理" :buttons="buttons" @btn-click="btnClick"></title-bar>
-    <my-table :head-list="headList" :data-list="dataList" @td-btn-click="tdBtnClick"></my-table>
+    <my-table ref="myTable" :head-list="headList" :data-list="dataList" @td-btn-click="tdBtnClick"></my-table>
     <qr-show ref="qrShow" v-show="showQRCode"></qr-show>
   </div>
 </template>
@@ -33,10 +33,10 @@ export default {
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX, style: {width: '30px'}},
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER, style: {width: '50px'}},
-        {label: '公众号名称', pname: 'name', showArrow: true, type: cstTdType.EDIT},
-        {label: '模板ID', pname: 'template_id', showArrow: true, type: cstTdType.EDIT},
-        {label: '微信推送地址', pname: 'url', showArrow: true, type: cstTdType.EDIT},
-        {label: '报警跳转地址', pname: 'ip', showArrow: true, type: cstTdType.EDIT},
+        {label: '公众号名称', pname: 'name', showArrow: false, type: cstTdType.EDIT},
+        {label: '模板ID', pname: 'template_id', showArrow: false, type: cstTdType.EDIT},
+        {label: '微信推送地址', pname: 'url', showArrow: false, type: cstTdType.EDIT},
+        {label: '报警跳转地址', pname: 'ip', showArrow: false, type: cstTdType.EDIT},
         {label: 'app_id', pname: 'app_id', showArrow: false, type: cstTdType.EDIT},
         {label: 'app_secret', pname: 'app_secret', showArrow: false, type: cstTdType.EDIT},
         {label: 'biz', pname: 'biz', showArrow: false, type: cstTdType.EDIT},
