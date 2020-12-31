@@ -1,5 +1,5 @@
 <template>
-  <div ref="select" class="select" v-show="isShow" :style="styleObj" @click="selectClick">
+  <div ref="select" class="select" v-show="isShow" :style="selectStyle" @click="selectClick">
     <div class="cb-ipt-div">
       <input type="text" v-model="curLabel" v-focus>
     </div>
@@ -45,7 +45,15 @@ export default {
       reject: "",
       curLabel: null,
       needMatch: false,
-      curOptions: []
+      curOptions: [],
+      styleParams: {
+        unit: 'px',
+        top: 0,
+        left: 0,
+        width: 180,
+        height: 30,
+      },
+      selectStyle: {},
     }
   },
   created() {
@@ -68,6 +76,34 @@ export default {
           this.needMatch = true
         }
         this.curOptions = result
+      }
+    },
+    styleObj: function(newValue, oldValue) {
+      this.styleParams.unit = newValue.unit
+      this.styleParams.top = parseInt(newValue.top)
+      this.styleParams.left = parseInt(newValue.left)
+      this.styleParams.width = parseInt(newValue.width)
+      this.styleParams.height = parseInt(newValue.height)
+      const {unit, top, left, width, height} = this.styleParams
+      this.selectStyle = {
+        top: top + unit,
+        left: left + unit,
+        width: width + unit,
+        height: height + unit
+      }
+      const vw = document.body.offsetWidth
+      const vh = document.body.offsetHeight
+      if((left+width*1.5+30)>vw){
+        Object.assign(this.selectStyle, {'align-items': 'flex-end'})
+      }
+      else{
+        Object.assign(this.selectStyle, {'align-items': 'stretch'})
+      }
+      if((top+height+180)>vh){
+        Object.assign(this.selectStyle, {'flex-direction': 'column-reverse'})
+      }
+      else{
+        Object.assign(this.selectStyle, {'flex-direction': 'column'})
       }
     }
   },

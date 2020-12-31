@@ -1,5 +1,5 @@
 <template>
-  <div ref="multiSelect" class="select" v-show="isShow" :style="styleObj" @click="selectClick">
+  <div ref="multiSelect" class="select" v-show="isShow" :style="selectStyle" @click="selectClick">
     <ul>
       <li v-for="(item,index) in options" :key="index" :pid="item.value">
         <label class="check-label" :title="item.label">
@@ -35,7 +35,45 @@ export default {
     return {
       promise: "",
       resolve: "",
-      reject: ""
+      reject: "",
+      styleParams: {
+        unit: 'px',
+        top: 0,
+        left: 0,
+        width: 180,
+        height: 30,
+      },
+      selectStyle: {},
+    }
+  },
+  watch: {
+    styleObj: function(newValue, oldValue) {
+      this.styleParams.unit = newValue.unit
+      this.styleParams.top = parseInt(newValue.top)
+      this.styleParams.left = parseInt(newValue.left)
+      this.styleParams.width = parseInt(newValue.width)
+      this.styleParams.height = parseInt(newValue.height)
+      const {unit, top, left, width, height} = this.styleParams
+      this.selectStyle = {
+        top: top + unit,
+        left: left + unit,
+        width: width + unit,
+        height: height + unit
+      }
+      const vw = document.body.offsetWidth
+      const vh = document.body.offsetHeight
+      if((left+width*1.5+30)>vw){
+        Object.assign(this.selectStyle, {'align-items': 'flex-end'})
+      }
+      else{
+        Object.assign(this.selectStyle, {'align-items': 'stretch'})
+      }
+      if((top+180)>vh){
+        Object.assign(this.selectStyle, {'flex-direction': 'column-reverse'})
+      }
+      else{
+        Object.assign(this.selectStyle, {'flex-direction': 'column'})
+      }
     }
   },
   methods: {

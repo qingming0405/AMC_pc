@@ -170,10 +170,11 @@ export default {
     tdDblClick(e, tdType, rowItem, pname){
       const styleObj = {
         //覆盖td
-        left: (e.clientX - e.offsetX - e.detail) + 'px',
-        top: (e.clientY - e.offsetY - e.detail) + 'px',
-        width: e.path[1].offsetWidth + 'px',
-        height: e.path[1].offsetHeight + 'px',
+        unit: 'px',
+        left: (e.clientX - e.offsetX - e.detail),
+        top: (e.clientY - e.offsetY - e.detail),
+        width: e.path[1].offsetWidth,
+        height: e.path[1].offsetHeight,
       }
       switch(tdType){
         case cstTdType.SELECT:

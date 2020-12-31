@@ -170,6 +170,8 @@ input[type='checkbox']{
 }
 /***********************************带检索下拉选择***********************************/
 .select{
+  display: flex;
+  flex-direction: column;
   z-index: 200;
   position: absolute;
   top: 0px;
@@ -198,11 +200,10 @@ input[type='checkbox']{
   border: 1px solid #597DD2;
   background: #fff;
   list-style-type: none;
-  max-height: 150px;
-  min-height: 90px;
   width: fit-content;
   min-width: 100%;
   max-width: 150%;
+  min-height: 150px;
   overflow-y: auto;
 }
 .select ul>li{
