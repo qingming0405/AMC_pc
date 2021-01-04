@@ -1,5 +1,5 @@
 <template>
-  <div ref="multiSelect" class="select" v-show="isShow" :style="selectStyle" @click="selectClick">
+  <div ref="multiSelect" class="select" v-show="isShow" :style="selectStyle" @click="selectClick" @mousewheel="selectClick">
     <ul>
       <li v-for="(item,index) in options" :key="index" :pid="item.value">
         <label class="check-label" :title="item.label">
@@ -81,6 +81,7 @@ export default {
       this.isShow = true;
       setTimeout(() => {
         document.body.addEventListener('click', this.clickOutside)
+        document.body.addEventListener('wheel', this.clickOutside)
       })
       this.promise = new Promise((resolve, reject) => {
         this.resolve = resolve;
@@ -93,7 +94,10 @@ export default {
       setTimeout(() => {
         this.$destroy();
         document.body.removeEventListener('click', this.clickOutside)
-        document.body.removeChild(this.$el);
+        document.body.removeEventListener('wheel', this.clickOutside)
+        if(document.body.contains(this.$el)){
+          document.body.removeChild(this.$el);
+        }
       })
     },
     getMultiLabel(){

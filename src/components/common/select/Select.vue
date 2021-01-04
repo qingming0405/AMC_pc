@@ -1,5 +1,5 @@
 <template>
-  <div ref="select" class="select" v-show="isShow" :style="selectStyle" @click="selectClick">
+  <div ref="select" class="select" v-show="isShow" :style="selectStyle" @click="selectClick" @mousewheel="selectClick">
     <div class="cb-ipt-div">
       <input type="text" v-model="curLabel" v-focus>
     </div>
@@ -121,6 +121,7 @@ export default {
       this.curLabel = this.label
       setTimeout(() => {
         document.body.addEventListener('click', this.clickOutside)
+        document.body.addEventListener('wheel', this.clickOutside)
       })
       this.promise = new Promise((resolve, reject) => {
         this.resolve = resolve;
@@ -133,7 +134,10 @@ export default {
       setTimeout(() => {
         this.$destroy();
         document.body.removeEventListener('click', this.clickOutside)
-        document.body.removeChild(this.$el);
+        document.body.removeEventListener('wheel', this.clickOutside)
+        if(document.body.contains(this.$el)){
+          document.body.removeChild(this.$el);
+        }
       })
     },
     /**事件监听 */
