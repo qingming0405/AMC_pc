@@ -104,6 +104,9 @@ export default {
     },
     saveOfficials(){
       const updateRows = this.$refs.myTable.getUpdateRows()
+      if(updateRows.length === 0){
+        return
+      }
       insertAndUpdateOfficialAccounts(updateRows).then(res => {
         if(res != null){
           const info = infoByCode(res.msg);

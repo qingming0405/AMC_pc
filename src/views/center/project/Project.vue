@@ -167,6 +167,9 @@ export default {
     },
     saveProjects(){
       const updateRows = this.$refs.myTable.getUpdateRows()
+      if(updateRows.length === 0){
+        return
+      }
       insertAndUpdateProjects(updateRows).then(res => {
         if(res != null){
           const info = infoByCode(res.msg);

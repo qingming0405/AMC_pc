@@ -117,6 +117,9 @@ export default {
     },
     saveUsers() {
       const updateRows = this.$refs.myTable.getUpdateRows()
+      if(updateRows.length === 0){
+        return
+      }
       const params = this.remoteDataList(updateRows)
       insertAndUpdateUsers(params).then(res => {
         if(res != null){
