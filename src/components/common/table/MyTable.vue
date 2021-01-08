@@ -159,7 +159,12 @@ export default {
       })
     },
     tdEditBlur(e, rowItem, pname, isCoo=false){
-      rowItem[pname] = e.target.textContent
+      // rowItem[pname] = e.target.textContent
+      this.$nextTick(() => {
+        rowItem[pname] = e.target.innerText
+        console.log(rowItem[pname]);
+        console.log(this.curDataList[0].username);
+      })
       if(isCoo){
         this.$emit('coo-td-edit-blur',rowItem, pname)
       }

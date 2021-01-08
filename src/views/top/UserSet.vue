@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import {validType, isValidData} from 'common/util.js'
+import {validType, isValidData, infoByCode, amc_md5} from 'common/util.js'
 
 import {updateAlarmUserInfo} from 'network/user.js'
 
@@ -69,8 +69,24 @@ export default {
       if(!this.validDataForm()){
         return
       }
-      console.log('updateAlarmUserInfo');
-      this.onClose()
+      const dataP = {};
+      dataP.id = this.curUser.id;
+      dataP.oldPassword = amc_md5(this.psdOld);
+      dataP.newPassword = amc_md5(this.psdNew);
+      const params = JSON.stringify(dataP);
+      updateAlarmUserInfo(params).then(res => {
+        if(res != null){
+          const info = infoByCode(res.msg);
+          if(res.msg !== 0){
+              this.errorP = info
+          }
+          else{
+              this.onClose()
+              this.$pop(info)
+          }
+        }
+      })
+      
     },
     onClose(){
       this.$parent.showUserSet = false

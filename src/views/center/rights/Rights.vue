@@ -10,7 +10,7 @@
 import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {cstTdType,MyTable} from 'components/common/table/MyTable.js'
 
-import {getCurUser, isZZQA} from 'common/util.js'
+import {getCurUser, isZZQA, infoByCode} from 'common/util.js'
 import {getUserPrivilege, updateUserPri} from 'network/rights'
 
 export default {
@@ -35,8 +35,8 @@ export default {
         {label: '工艺段/风场', pname: 't_name', showArrow: true, type: cstTdType.SHOW},
         {label: '项目角色', pname: 'projectRole', showArrow: false, type: cstTdType.SHOW, style: {width: '120px'}},
         {label: '公众号', pname: 'OAs', showArrow: false, type: cstTdType.MULTI_SELECT, style: {width: '120px'}},
-        {label: '报警类型', pname: 'alarmType', showArrow: false, type: cstTdType.MULTI_CHECKBOX},
-        {label: '用户操作权限', pname: 'userPri', showArrow: false, type: cstTdType.MULTI_CHECKBOX},
+        {label: '报警类型', pname: 'amcAlarmType', showArrow: false, type: cstTdType.MULTI_CHECKBOX},
+        {label: '用户操作权限', pname: 'amcUserPri', showArrow: false, type: cstTdType.MULTI_CHECKBOX},
       ],
       dataList: [],
       newDataId: -1,
@@ -51,7 +51,6 @@ export default {
       const config = {"id": this.curUser.id, "isAdmin": this.curUser.isAdmin}
       getUserPrivilege(config).then(res => {
         this.dataList = this.localDataList(res.data)
-        // console.log(this.dataList);
       })
     },
     localDataList(data){
@@ -69,10 +68,18 @@ export default {
         data[i].t_name = data[i].project.t_name;//组织名称
         data[i].projectRole = this.getProjectRole(data[i].type);
         data[i].OAs = this.getOAs(data[i].officialAccounts);//公众号
-        data[i].alarmType = this.getCheckLabelItems(JSON.parse(data[i].alarm_type));//报警类型
-        data[i].userPri = this.getCheckLabelItems(JSON.parse(data[i].user_pri));//用户操作权限
+        data[i].amcAlarmType = this.getCheckLabelItems(JSON.parse(data[i].alarm_type));//报警类型
+        data[i].amcUserPri = this.getCheckLabelItems(JSON.parse(data[i].user_pri));//用户操作权限
       }
       return data;
+    },
+    remoteDataList(data){
+      for(let obj of data){
+        obj.alarmType = this.remoteCheckItemsObj(obj.amcAlarmType)
+        obj.userPri = this.remoteCheckItemsObj(obj.amcUserPri)
+        obj.info = this.remoteOAs(obj.officialAccounts);
+      } 
+      return data
     },
     getProjectRole(type){
       switch(parseInt(type)){
@@ -99,6 +106,16 @@ export default {
         options
       }
     },
+    remoteOAs(OAs){
+      if(OAs==null || OAs.length===0){
+        return null;
+      }
+      const obj = {};
+      for(let i=0; i<OAs.length; i++){
+        obj[OAs[i].id] = OAs[i].beApplied;
+      }
+      return obj;
+    },
     getMultiLabel(options, separator){
       const labels = []
       options.forEach(item => {
@@ -112,12 +129,20 @@ export default {
       let arr = []
       for(let key in dataObj){
         arr.push({
-          check: dataObj[key],
+          check: dataObj[key] == 1,
           label: this.checkDirectory(key),
           value: key
         })
       }
       return arr
+    },
+    remoteCheckItemsObj(dataArr){
+      let obj = {}
+      for(let item of dataArr){
+        obj[item.value] = item.check ? 1 : 0
+      }
+      console.log(obj);
+      return obj
     },
     checkDirectory(key){
       switch(key){
@@ -146,7 +171,17 @@ export default {
       this.$refs.myTable.clearFilter()
     },
     saveRights(){
-
+      const updateRows = this.$refs.myTable.getUpdateRows()
+      const params = this.remoteDataList(updateRows)
+      updateUserPri(params).then(res => {
+        if(res != null){
+          const info = infoByCode(res.msg);
+          this.$pop(info)
+          if(res.msg === 0){
+              this.getUserPrivilege()
+          }
+        }
+      })
     },
     btnClick(type){
       switch(type){

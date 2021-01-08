@@ -88,10 +88,11 @@ export default {
       }
       const styleObj = {
         //覆盖td
-        left: (e.clientX - e.offsetX - e.detail) + 'px',
-        top: (e.clientY - e.offsetY - e.detail) + 'px',
-        width: e.path[0].offsetWidth + 'px',
-        height: e.path[0].offsetHeight + 'px',
+        unit: 'px',
+        left: (e.clientX - e.offsetX - e.detail),
+        top: (e.clientY - e.offsetY - e.detail),
+        width: e.path[0].offsetWidth,
+        height: e.path[0].offsetHeight,
       }
       this.$select(Object.assign(
         {},

@@ -12,8 +12,8 @@ import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {cstTdType,MyTable} from 'components/common/table/MyTable.js'
 import MembersSet from './MembersSet.vue'
 
-import {getCurUser, isZZQA} from 'common/util.js'
-import {getProjectInfo} from 'network/project.js'
+import {getCurUser, isZZQA, infoByCode} from 'common/util.js'
+import {getProjectInfo, insertAndUpdateProjects, delProjectByIds} from 'network/project.js'
 
 export default {
   name: 'Project',
@@ -27,7 +27,7 @@ export default {
       curUser: null,
       buttons:[
         {label: '清除筛选', type: 'clearFilter'},
-        {label: '新建', type: 'addUser'},
+        {label: '新建', type: 'addProject'},
         {label: '保存', type: 'saveProjects'},
         {label: '删除', type: 'deleteProjects'}
       ],
@@ -71,6 +71,20 @@ export default {
         data[i].members = this.getMembersItem(data[i].memberInfo)
       }
       return data;
+    },
+    createProject(id,name,t_id,t_name,managerInfo,memberInfo){
+      const obj = {};
+      obj.needUpdate = true;//需要更新
+      obj.checkRow = false
+      obj.project = {id, name, t_id, t_name}
+      obj.managerInfo = managerInfo;//管理员信息
+      obj.memberInfo = memberInfo;//项目成员组信息
+      obj.id = id;//项目id
+      obj.name = name;//项目名称
+      obj.folder = this.getFolderItem(obj.project)
+      obj.manager = this.getManagerItem(obj.managerInfo)
+      obj.members = this.getMembersItem(obj.memberInfo)
+      return obj;
     },
     getFolderItem(project){
       const options = []
@@ -147,13 +161,33 @@ export default {
       this.$refs.myTable.clearFilter()
     },
     addProject(){
-
+      this.dataList.unshift(this.createProject(this.newDataId,"",-1,"",{},[]));
+      console.log(this.dataList);
+      this.newDataId--
     },
     saveProjects(){
-
+      const updateRows = this.$refs.myTable.getUpdateRows()
+      insertAndUpdateProjects(updateRows).then(res => {
+        if(res != null){
+          const info = infoByCode(res.msg);
+          this.$pop(info)
+          if(res.msg === 0){
+              this.getProjects()
+          }
+        }
+      })
     },
     deleteProjects(){
-
+      const delIds = this.$refs.myTable.getCheckedRowIds()
+      delProjectByIds(delIds).then(res => {
+        if(res != null){
+          const info = infoByCode(res.msg);
+          this.$pop(info)
+          if(res.msg === 0){
+              this.getProjects()
+          }
+        }
+      })
     },
     cooTdEditBlur(rowItem, pname){
       switch(pname){

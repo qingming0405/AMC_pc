@@ -23,6 +23,28 @@ export function isZZQA(company){
   return false;
 }
 
+/*后端返回信息*/
+export function infoByCode(code){
+  let info;
+  switch (code){
+      case 0:
+          info="操作成功";
+          break;
+      case 1:
+          info="参数错误";
+          break;
+      case 2:
+          info="后台错误";
+          break;
+      case 4:
+          info="当前密码错误";
+          break;
+      default:
+          info = "未定义"
+  }
+  return info;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /* 深度拷贝 */
 export function deepCopy(obj){

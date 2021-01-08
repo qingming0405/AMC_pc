@@ -11,9 +11,8 @@ import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {cstTdType,MyTable} from 'components/common/table/MyTable.js'
 import QrShow from './QrShow'
 
-import {getAllOfficialAccounts, getQRCodeStr} from 'network/official'
-
-
+import {getAllOfficialAccounts, getQRCodeStr, insertAndUpdateOfficialAccounts, delOfficialAccountsById} from 'network/official'
+import {infoByCode} from 'common/util.js'
 
 export default {
   name: 'Official',
@@ -65,6 +64,21 @@ export default {
       }
       return data;
     },
+    createOfficialAccount(id,name,template_id,url,ip,app_id,app_secret,biz){
+      const obj = {};
+      obj.needUpdate = true;
+      obj.checkRow = false
+      obj.id = id;//公众号id
+      obj.name = name;//公众号名
+      obj.template_id = template_id;//模板id
+      obj.url = url;//微信推送地址
+      obj.ip = ip;//报警跳转地址
+      obj.app_id = app_id;
+      obj.app_secret = app_secret;
+      obj.biz = biz;
+      obj.qrCode = '查看'
+      return obj;
+    },
     /***事件 */
     btnClick(type){
       switch(type){
@@ -85,13 +99,32 @@ export default {
       this.$refs.myTable.clearFilter()
     },
     addOfficial(){
-      this.$pop('添加公众号')
+      this.dataList.unshift(this.createOfficialAccount(this.newDataId,"","","","","","",""));
+      this.newDataId--
     },
     saveOfficials(){
-
+      const updateRows = this.$refs.myTable.getUpdateRows()
+      insertAndUpdateOfficialAccounts(updateRows).then(res => {
+        if(res != null){
+          const info = infoByCode(res.msg);
+          this.$pop(info)
+          if(res.msg === 0){
+              this.getAllOfficials()
+          }
+        }
+      })
     },
     deleteOfficials(){
-
+      const delIds = this.$refs.myTable.getCheckedRowIds()
+      delOfficialAccountsById(delIds).then(res => {
+        if(res != null){
+          const info = infoByCode(res.msg);
+          this.$pop(info)
+          if(res.msg === 0){
+              this.getAllOfficials()
+          }
+        }
+      })
     },
     tdBtnClick(rowItem,pname){
       switch(pname){
@@ -101,6 +134,9 @@ export default {
       }
     },
     qrShow(id, name){
+      if(id < 0){
+        return
+      }
       let dataP = {"id":id};
       getQRCodeStr(dataP).then(res => {
         this.$refs.qrShow.setInfos(name, res.str)

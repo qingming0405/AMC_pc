@@ -12,9 +12,9 @@ import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {MyTable, cstTdType} from 'components/common/table/MyTable.js'
 import OpenIdSet from './OpenIdSet.vue'
 
-import {getAllUserInfo} from 'network/user'
+import {getAllUserInfo,insertAndUpdateUsers,delUserById} from 'network/user'
 
-import {isZZQA} from 'common/util.js'
+import {isZZQA, infoByCode, amc_md5} from 'common/util.js'
 
 export default {
   name: 'User',
@@ -43,7 +43,7 @@ export default {
         {label: '微信头像', pname: 'iconurl', showArrow: false, type: cstTdType.ICON, style: {width: '100px'}},
         {label: '微信openId', pname: 'operate', showArrow: false, type: cstTdType.BUTTON, style: {width: '120px'}},
         {label: '账号', pname: 'account', showArrow: false, type: cstTdType.EDIT, style: ''},
-        {label: '密码', pname: 'password', showArrow: false, type: cstTdType.EDIT, style: ''},
+        {label: '密码', pname: 'amcPassword', showArrow: false, type: cstTdType.EDIT, style: ''},
       ],
       dataList: [],
       officialAccounts: [],//公众号列表
@@ -76,7 +76,19 @@ export default {
           data[i].iconurl = this.defaultIconUrl
         }
         data[i].operate = '设置'
-        data[i].password = "▪▪▪▪▪▪▪▪"
+        data[i].amcPassword = "▪▪▪▪▪▪▪▪"
+        data[i].password = ''
+      }
+      return data;
+    },
+    remoteDataList(data){
+      for(let i=0; i<data.length; i++){
+        if(data[i].amcPassword==="▪▪▪▪▪▪▪▪"){
+          data[i].password = "";
+        }
+        else{
+          data[i].password = amc_md5(data[i].amcPassword);
+        }
       }
       return data;
     },
@@ -104,16 +116,33 @@ export default {
       this.newDataId--
     },
     saveUsers() {
-      this.$pop(this.dataList.toString())
-      console.log(this.$refs.myTable.getUpdateRows())
+      const updateRows = this.$refs.myTable.getUpdateRows()
+      const params = this.remoteDataList(updateRows)
+      insertAndUpdateUsers(params).then(res => {
+        if(res != null){
+          const info = infoByCode(res.msg);
+          this.$pop(info)
+          if(res.msg === 0){
+              this.getAllUserInfo()
+          }
+        }
+      })
     },
     deleteUsers() {
-      console.log(this.$refs.myTable.getCheckedRowIds())
-      this.dataList = this.$refs.myTable.getCheckedRows()
+      const delIds = this.$refs.myTable.getCheckedRowIds()
+      delUserById(delIds).then(res => {
+        if(res != null){
+          const info = infoByCode(res.msg);
+          this.$pop(info)
+          if(res.msg === 0){
+              this.getAllUserInfo()
+          }
+        }
+      })
     },
     createUser(id,username,company,post,phone,account,password,isAdmin,nickname,iconurl,openIds){
       const obj = {};
-      obj.needUpdate = false;
+      obj.needUpdate = true;
       // obj.showRow = true
       obj.fontBold = ''
       obj.checkRow = false
@@ -123,7 +152,7 @@ export default {
       obj.post=post;
       obj.phone=phone;
       obj.account=account;
-      obj.password=password;
+      obj.amcPassword=password;
       obj.isAdmin=isAdmin;
       obj.nickname=nickname;
       obj.iconurl=iconurl;
