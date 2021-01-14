@@ -1,50 +1,48 @@
 <template>
   <div id="test">
-    <h2>哈哈哈哈</h2>
-    <button @click="btnClick">点击</button>
-    <ul>
-      <li v-for="(item, index) in dataList" :key="index">
-        {{item.label}}
-      </li>
-    </ul>
+    <edit-div></edit-div>
   </div>
 </template>
 
 <script>
+import EditDiv from '../components/common/table/EditDiv.vue';
 
 
 export default {
   name: 'Test',
   components: {
-    
+    EditDiv
   },
   data() {
     return {
-      dataList: [],
+      data: '',
+      message: '哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或或或或或或或或或或或或',
+      isEdit: false
     }
   },
   created() {
     
   },
   mounted() {
-    setTimeout(() => {
-      this.setDataList(3)
-    }, 1000);
+    
+  },
+  watch: {
+    message: function(newValue, oldValue) {
+      console.log(newValue);
+    }
   },
   computed: {
     
   },
   methods: {
-    setDataList(len){
-      const arr = []
-      for(let i=0; i<len; i++){
-        arr.push({label: 'xxxxxxxxx'+i})
-      }
-      this.dataList = arr
-    },
-    btnClick(){
-      let len = Math.round(Math.random()*10)
-      this.setDataList(len)
+    isEditChange(){
+      this.isEdit = !this.isEdit
+      this.$nextTick(() => {
+        if(this.isEdit){ 
+          this.$refs.textarea.focus()
+        }
+      })
+      
     }
   }
 }
@@ -53,19 +51,9 @@ export default {
 <style scoped>
   #test{
     padding: 30px;
-    width: 800px;
-    height: 100px;
+    width: 200px;
+    height: 50px;
     font-size: 16px;
-    position: absolute;
     background-color: lavender;
-    display: flex;
-    flex-direction: column-reverse;
-  }
-  ul{
-    /* display: flex;
-    flex-direction: column-reverse; */
-    overflow-y: auto;
-    min-height: 90px;
-    max-height: 150px;
   }
 </style>

@@ -4,7 +4,7 @@ export function request(config){
   // console.log(sessionStorage.amc_token);
 
   const instance = axios.create({
-    baseURL: 'http://10.100.50.29:8880/AMC',
+    baseURL: 'http://10.100.50.206:8880/AMC',
     timeout: 5000,
     method: 'post',
     headers: {

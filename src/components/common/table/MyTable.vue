@@ -14,7 +14,7 @@
           <td v-for="(headItem, col) in headList" :key="col" :pname="headItem.pname" :style="headItem.style">
             <div v-if="headItem.type === cstTdType.ORDER">{{row + 1}}</div>
             <div v-else-if="headItem.type === cstTdType.SHOW">{{rowItem[headItem.pname]}}</div>
-            <div v-else-if="headItem.type === cstTdType.EDIT" contenteditable="true" @blur="tdEditBlur($event, rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</div>
+            <edit-div v-else-if="headItem.type === cstTdType.EDIT" :message="rowItem[headItem.pname]" @edit-change="tdEditChange($event, rowItem, headItem.pname)"></edit-div>
             <input v-else-if="headItem.type === cstTdType.CHECKBOX" type="checkbox" v-model="rowItem[headItem.pname]">
             <img v-else-if="headItem.type === cstTdType.ICON" :src="rowItem[headItem.pname]" alt="">
             <span v-else-if="headItem.type === cstTdType.BUTTON" class="td-button" @click="tdBtnClick(rowItem, headItem.pname)">{{rowItem[headItem.pname]}}</span>
@@ -31,7 +31,7 @@
             <div v-else-if="headItem.type === cstTdType.MULTI_SELECT" @dblclick="tdDblClick($event, cstTdType.MULTI_SELECT, rowItem, headItem.pname)">
               {{rowItem[headItem.pname].label}}
             </div>
-            <div v-else-if="headItem.type === cstTdType.COO_EDIT" contenteditable="true" @blur="tdEditBlur($event, rowItem, headItem.pname, true)">{{rowItem[headItem.pname]}}</div>
+            <edit-div v-else-if="headItem.type === cstTdType.COO_EDIT" :message="rowItem[headItem.pname]" @edit-change="tdEditChange($event, rowItem, headItem.pname, true)"></edit-div>
             <div v-else>{{rowItem[headItem.pname]}}</div>
           </td>
         </tr>
@@ -41,10 +41,15 @@
 </template>
 
 <script>
+import EditDiv from './EditDiv.vue'
+
 import {cstTdType, getCurOptions, getFilterOptions, getFilterDataList} from './MyTable.js'
 
 export default {
   name: 'MyTable',
+  components: {
+    EditDiv
+  },
   props: {
     headList: {
       type: Array,
@@ -79,9 +84,6 @@ export default {
   mounted(){
     this.initFilterMap()
     this.setTbodyHeight()
-  },
-  components: {
-    
   },
   computed: {
     
@@ -158,13 +160,8 @@ export default {
         }
       })
     },
-    tdEditBlur(e, rowItem, pname, isCoo=false){
-      // rowItem[pname] = e.target.textContent
-      this.$nextTick(() => {
-        rowItem[pname] = e.target.innerText
-        console.log(rowItem[pname]);
-        console.log(this.curDataList[0].username);
-      })
+    tdEditChange(newValue, rowItem, pname, isCoo=false){
+      rowItem[pname] = newValue
       if(isCoo){
         this.$emit('coo-td-edit-blur',rowItem, pname)
       }

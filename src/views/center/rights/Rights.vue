@@ -141,7 +141,6 @@ export default {
       for(let item of dataArr){
         obj[item.value] = item.check ? 1 : 0
       }
-      console.log(obj);
       return obj
     },
     checkDirectory(key){
