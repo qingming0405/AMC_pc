@@ -25,7 +25,6 @@ export function isZZQA(company){
 
 /*后端返回信息*/
 export function infoByCode(code){
-  console.log(code);
   let info;
   switch (code){
       case 0:

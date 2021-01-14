@@ -1,7 +1,7 @@
 <template>
   <div ref="select" class="select" v-show="isShow" :style="selectStyle" @click="selectClick" @mousewheel="selectClick">
     <div class="cb-ipt-div">
-      <input type="text" v-model="curLabel" v-focus>
+      <input ref="ipt" type="text" v-model="curLabel">
     </div>
     <ul>
       <li v-for="(item,index) in curOptions" :key="index" :title="item.label" @click="itemClick(item)">
@@ -119,6 +119,9 @@ export default {
     showSelect(){
       this.isShow = true;
       this.curLabel = this.label
+      this.$nextTick(() => {
+        this.$refs.ipt.focus()
+      })
       setTimeout(() => {
         document.body.addEventListener('click', this.clickOutside)
         document.body.addEventListener('wheel', this.clickOutside)

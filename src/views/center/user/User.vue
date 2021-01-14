@@ -14,7 +14,7 @@ import OpenIdSet from './OpenIdSet.vue'
 
 import {getAllUserInfo,insertAndUpdateUsers,delUserById} from 'network/user'
 
-import {isZZQA, infoByCode, amc_md5} from 'common/util.js'
+import {isZZQA, amc_md5} from 'common/util.js'
 
 export default {
   name: 'User',
@@ -92,6 +92,30 @@ export default {
       }
       return data;
     },
+    infoByCode(code) {
+      let info;
+      switch (code){
+        case 0:
+          info="操作成功";
+          break;
+        case 1:
+          info="参数错误";
+          break;
+        case 2:
+          info="后台错误";
+          break;
+        case 3:
+          info="号码重复";
+          break;
+        case 4:
+          info="账号重复";
+          break;
+
+        default:
+          info = "未定义"
+      }
+      return info;
+    },
     /***事件 */
     btnClick(type){
       switch(type){
@@ -123,7 +147,7 @@ export default {
       const params = this.remoteDataList(updateRows)
       insertAndUpdateUsers(params).then(res => {
         if(res != null){
-          const info = infoByCode(res.msg);
+          const info = this.infoByCode(res.msg);
           this.$pop(info)
           if(res.msg === 0){
               this.getAllUserInfo()
@@ -135,7 +159,7 @@ export default {
       const delIds = this.$refs.myTable.getCheckedRowIds()
       delUserById(delIds).then(res => {
         if(res != null){
-          const info = infoByCode(res.msg);
+          const info = this.infoByCode(res.msg);
           this.$pop(info)
           if(res.msg === 0){
               this.getAllUserInfo()
