@@ -59,7 +59,7 @@ const routes = [
 const router = new VueRouter({
   routes,
   //路由模式：默认是hash模式
-  mode: 'history',
+  mode: 'hash',
   //修改选中的标签的类名(默认为router-link-active)
   linkActiveClass: 'active',
 })

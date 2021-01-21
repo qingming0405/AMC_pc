@@ -1,4 +1,5 @@
 import MyTable from './MyTable.vue'
+import {isValidData} from 'common/util.js'
 
 const cstTdType = {
   'ORDER': 'order',//序号
@@ -160,6 +161,43 @@ function getIds(dataList){
 }
 //////////////////////////////////////////////////筛选窗口处理end//////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////表格验证begin//////////////////////////////////////////////////////////
+function validDataForm(headList, datalist) {
+  let errorDatas = {};
+  let pnames;
+  for(let rowItem of datalist){
+    for(let headItem of headList){
+      
+    }
+
+    
+    pnames = [];
+    if(!isValidData(dataArr[i].username,VALID_ALL,1,50)){
+      pnames.push("username");
+    }
+    if(!isValidData(dataArr[i].phone,VALID_NUMBER,8,15)){
+      pnames.push("phone");
+    }
+    if(!isValidData(dataArr[i].company,VALID_ALL,1,100)){
+      pnames.push("company");
+    }
+    if(!isValidData(dataArr[i].post,VALID_ALL,1,100)){
+      pnames.push("post");
+    }
+    if(!isValidData(dataArr[i].account,VALID_ALL,1,50)){
+      pnames.push("account");
+    }
+    if(!isValidData(dataArr[i].password,VALID_NO_CHINESE,1,50)){
+      pnames.push("password");
+    }
+    if(pnames.length>0){
+      errorDatas[dataArr[i].id] = pnames;
+    }
+  }
+  return errorDatas;
+}
+//////////////////////////////////////////////////表格验证end//////////////////////////////////////////////////////////
+
 export{
-  MyTable, cstTdType, getCurOptions, getFilterOptions, getFilterDataList
+  MyTable, cstTdType, getCurOptions, getFilterOptions, getFilterDataList, validDataForm
 }

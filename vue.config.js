@@ -1,4 +1,5 @@
 module.exports = {
+  publicPath: './',
   configureWebpack: {
     resolve: {
       alias: {
@@ -10,5 +11,12 @@ module.exports = {
         'pages': '@/pages'
       }
     }
+  },
+  chainWebpack: config => {
+    config.plugin('html').tap(args => {
+      console.log(args);
+      args[0].title = "AMC"
+      return args
+    })
   }
 }
