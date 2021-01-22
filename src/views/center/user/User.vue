@@ -14,7 +14,7 @@ import OpenIdSet from './OpenIdSet.vue'
 
 import {getAllUserInfo,insertAndUpdateUsers,delUserById} from 'network/user'
 
-import {isZZQA, amc_md5} from 'common/util.js'
+import {isZZQA, amc_md5, validType} from 'common/util.js'
 
 export default {
   name: 'User',
@@ -35,15 +35,15 @@ export default {
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX, style: {width: '30px'}},
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER, style: {width: '50px'}},
-        {label: '姓名', pname: 'username', showArrow: true, type: cstTdType.EDIT, style: ''},
-        {label: '手机号码', pname: 'phone', showArrow: true, type: cstTdType.EDIT, style: ''},
-        {label: '公司名称', pname: 'company', showArrow: true, type: cstTdType.COO_EDIT, style: ''},
-        {label: '工作岗位', pname: 'post', showArrow: true, type: cstTdType.EDIT, style: ''},
+        {label: '姓名', pname: 'username', showArrow: true, type: cstTdType.EDIT, style: '', valid: {type: validType.VALID_ALL, minLen: 1, maxLen: 50}},
+        {label: '手机号码', pname: 'phone', showArrow: true, type: cstTdType.EDIT, style: '', valid: {type: validType.VALID_NUMBER, minLen: 8, maxLen: 15}},
+        {label: '公司名称', pname: 'company', showArrow: true, type: cstTdType.COO_EDIT, style: '', valid: {type: validType.VALID_ALL, minLen: 1, maxLen: 100}},
+        {label: '工作岗位', pname: 'post', showArrow: true, type: cstTdType.EDIT, style: '', valid: {type: validType.VALID_ALL, minLen: 1, maxLen: 100}},
         {label: '微信昵称', pname: 'nickname', showArrow: false, type: cstTdType.EDIT, style: {width: '120px'}},
         {label: '微信头像', pname: 'iconurl', showArrow: false, type: cstTdType.ICON, style: {width: '100px'}},
         {label: '微信openId', pname: 'operate', showArrow: false, type: cstTdType.BUTTON, style: {width: '120px'}},
-        {label: '账号', pname: 'account', showArrow: false, type: cstTdType.EDIT, style: ''},
-        {label: '密码', pname: 'amcPassword', showArrow: false, type: cstTdType.EDIT, style: ''},
+        {label: '账号', pname: 'account', showArrow: false, type: cstTdType.EDIT, style: '', valid: {type: validType.VALID_ALL, minLen: 1, maxLen: 50}},
+        {label: '密码', pname: 'amcPassword', showArrow: false, type: cstTdType.EDIT, style: '', valid: {type: validType.VALID_NO_CHINESE, minLen: 1, maxLen: 50}},
       ],
       dataList: [],
       officialAccounts: [],//公众号列表
@@ -140,8 +140,14 @@ export default {
       this.newDataId--
     },
     saveUsers() {
-      const updateRows = this.$refs.myTable.getUpdateRows()
+      const validData = this.$refs.myTable.doValidData()
+      const updateRows = validData.updateRows
       if(updateRows.length === 0){
+        this.$pop('数据未更改！')
+        return
+      }
+      if(!validData.isValid){
+        this.$pop('数据为空或格式不正确！')
         return
       }
       const params = this.remoteDataList(updateRows)

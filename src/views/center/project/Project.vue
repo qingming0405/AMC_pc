@@ -12,7 +12,7 @@ import TitleBar from 'components/content/titleBar/TitleBar.vue'
 import {cstTdType,MyTable} from 'components/common/table/MyTable.js'
 import MembersSet from './MembersSet.vue'
 
-import {getCurUser, isZZQA, infoByCode} from 'common/util.js'
+import {getCurUser, isZZQA, infoByCode, validType} from 'common/util.js'
 import {getProjectInfo, insertAndUpdateProjects, delProjectByIds} from 'network/project.js'
 
 export default {
@@ -34,7 +34,7 @@ export default {
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX, style: {width: '30px'}},
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER, style: {width: '50px'}},
-        {label: '项目名称', pname: 'name', showArrow: true, type: cstTdType.COO_EDIT},
+        {label: '项目名称', pname: 'name', showArrow: true, type: cstTdType.COO_EDIT, valid: {type: validType.VALID_ALL, minLen: 1, maxLen: 50}},
         {label: '工艺段/风场', pname: 'folder', showArrow: true, type: cstTdType.SELECT},
         {label: '项目管理员', pname: 'manager', showArrow: true, type: cstTdType.SELECT, style: {width: '140px'}},
         {label: '项目成员', pname: 'members', showArrow: false, type: cstTdType.MULTI_TEXT},
@@ -166,8 +166,14 @@ export default {
       this.newDataId--
     },
     saveProjects(){
-      const updateRows = this.$refs.myTable.getUpdateRows()
+      const validData = this.$refs.myTable.doValidData()
+      const updateRows = validData.updateRows
       if(updateRows.length === 0){
+        this.$pop('数据未更改！')
+        return
+      }
+      if(!validData.isValid){
+        this.$pop('数据为空或格式不正确！')
         return
       }
       insertAndUpdateProjects(updateRows).then(res => {

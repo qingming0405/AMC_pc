@@ -12,7 +12,7 @@ import {cstTdType,MyTable} from 'components/common/table/MyTable.js'
 import QrShow from './QrShow'
 
 import {getAllOfficialAccounts, getQRCodeStr, insertAndUpdateOfficialAccounts, delOfficialAccountsById} from 'network/official'
-import {infoByCode} from 'common/util.js'
+import {infoByCode, validType} from 'common/util.js'
 
 export default {
   name: 'Official',
@@ -32,13 +32,13 @@ export default {
       headList: [
         {label: ' ', pname: 'checkRow', showArrow: false, type: cstTdType.CHECKBOX, style: {width: '30px'}},
         {label: '序号', pname: 'order', showArrow: false, type: cstTdType.ORDER, style: {width: '50px'}},
-        {label: '公众号名称', pname: 'name', showArrow: false, type: cstTdType.EDIT},
-        {label: '模板ID', pname: 'template_id', showArrow: false, type: cstTdType.EDIT},
-        {label: '微信推送地址', pname: 'url', showArrow: false, type: cstTdType.EDIT},
-        {label: '报警跳转地址', pname: 'ip', showArrow: false, type: cstTdType.EDIT},
-        {label: 'app_id', pname: 'app_id', showArrow: false, type: cstTdType.EDIT},
-        {label: 'app_secret', pname: 'app_secret', showArrow: false, type: cstTdType.EDIT},
-        {label: 'biz', pname: 'biz', showArrow: false, type: cstTdType.EDIT},
+        {label: '公众号名称', pname: 'name', showArrow: false, type: cstTdType.EDIT, valid: {type: validType.VALID_ALL, minLen: 1, maxLen: 50}},
+        {label: '模板ID', pname: 'template_id', showArrow: false, type: cstTdType.EDIT, valid: {type: validType.VALID_NO_CHINESE, minLen: 1, maxLen: 100}},
+        {label: '微信推送地址', pname: 'url', showArrow: false, type: cstTdType.EDIT, valid: {type: validType.VALID_NO_CHINESE, minLen: 1, maxLen: 100}},
+        {label: '报警跳转地址', pname: 'ip', showArrow: false, type: cstTdType.EDIT, valid: {type: validType.VALID_NO_CHINESE, minLen: 1, maxLen: 100}},
+        {label: 'app_id', pname: 'app_id', showArrow: false, type: cstTdType.EDIT, valid: {type: validType.VALID_NO_CHINESE, minLen: 1, maxLen: 100}},
+        {label: 'app_secret', pname: 'app_secret', showArrow: false, type: cstTdType.EDIT, valid: {type: validType.VALID_NO_CHINESE, minLen: 1, maxLen: 100}},
+        {label: 'biz', pname: 'biz', showArrow: false, type: cstTdType.EDIT, valid: {type: validType.VALID_NO_CHINESE, minLen: 1, maxLen: 100}},
         {label: '二维码', pname: 'qrCode', showArrow: false, type: cstTdType.BUTTON}
       ],
       dataList: [],
@@ -103,8 +103,14 @@ export default {
       this.newDataId--
     },
     saveOfficials(){
-      const updateRows = this.$refs.myTable.getUpdateRows()
+      const validData = this.$refs.myTable.doValidData()
+      const updateRows = validData.updateRows
       if(updateRows.length === 0){
+        this.$pop('数据未更改！')
+        return
+      }
+      if(!validData.isValid){
+        this.$pop('数据为空或格式不正确！')
         return
       }
       insertAndUpdateOfficialAccounts(updateRows).then(res => {

@@ -44,6 +44,7 @@
 import EditDiv from './EditDiv.vue'
 
 import {cstTdType, getCurOptions, getFilterOptions, getFilterDataList} from './MyTable.js'
+import {isValidData} from 'common/util.js'
 
 export default {
   name: 'MyTable',
@@ -90,7 +91,6 @@ export default {
   },
   methods: {
     /***公共方法区 */
-
     initFilterMap(){
       this.filterMap = {}
       for(let headItem of this.headList){
@@ -109,7 +109,33 @@ export default {
       this.$refs.tbody.style.height = `${tableHeight-theadHeight}px`
     },
     getUpdateRows(){
-      return this.dataList.filter(rowItem => rowItem.needUpdate)
+      return this.curDataList.filter(rowItem => rowItem.needUpdate)
+    },
+    doValidData(){
+      let isValid = true
+      const updateRows = []
+      this.curDataList.forEach((rowItem, index) => {
+        if(rowItem.needUpdate){
+          isValid = this.setValidRow(rowItem) && isValid
+          updateRows.push(rowItem)
+        }
+      });
+      return {
+        isValid,
+        updateRows
+      }
+    },
+    setValidRow(rowItem){
+      let isValid = true
+      this.headList.forEach(headItem => {
+        if(headItem.hasOwnProperty('valid') && headItem.valid != null){
+          const {type, minLen, maxLen} = headItem.valid
+          isValid = isValid && isValidData(rowItem[headItem.pname], type, minLen, maxLen)
+        }
+      });
+      this.$set(rowItem, 'isValid', isValid)
+      // rowItem.isValid = isValid
+      return isValid
     },
     getCheckedRows(){
       return this.dataList.filter(rowItem => rowItem.checkRow)
@@ -134,7 +160,12 @@ export default {
       return isShow? 'arrow-icon' : ''
     },
     trBgColor(index){
-      if(this.curIndex === index){
+      if(this.curDataList && this.curDataList.length>index && this.curDataList[index].hasOwnProperty('isValid')){
+        if(!this.curDataList[index].isValid){
+          return 'invalid-tr'
+        }
+      }
+      else if(this.curIndex === index){
         return 'select-tr'
       }
       return ''
@@ -246,7 +277,10 @@ export default {
     background: var(--bgcolor-wall);
   }
   .select-tr,tr:hover{
-    background: var(--bgcolor-hover);
+    background: var(--bgcolor-hover) !important;
+  }
+  .invalid-tr{
+    background: var(--color-warn) !important;
   }
   th,td{
     /* padding: 5px 15px; */
