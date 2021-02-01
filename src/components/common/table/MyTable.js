@@ -16,7 +16,7 @@ const cstTdType = {
 }
 
 //////////////////////////////////////////////////筛选窗口处理begin//////////////////////////////////////////////////////////
-// 获取可选项
+// export 获取可选项
 function getCurOptions(pname, headList, filterMap, srcDataList, curDataList){
   const filterHeaderList = getFilterHeadList(headList)
   const curBeforeList = getDataListBeforeCurFilter(pname, filterMap, baseTableList(filterHeaderList, srcDataList))
@@ -129,16 +129,14 @@ function getOptions(optionsObj){
   return options
 }
 
+// export 返回过滤项
 function getFilterOptions(options){
-  let i = 0
-  for(let item of options){
-    if(item.check === false){
-      return options
-    }
-  }
-  return []
+  return options.filter(item => {
+    return item.check
+  })
 }
 
+// export 返回筛选结果
 function getFilterDataList(pname, srcDataList, options, curBeforeList){
   const baseFilterList = filterDataList(curBeforeList, pname, options)
   const ids = getIds(baseFilterList)

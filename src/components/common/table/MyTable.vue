@@ -185,8 +185,8 @@ export default {
       const {options, curBeforeList} = getCurOptions(pname, this.headList, this.filterMap, this.dataList, this.curDataList)
       this.$filterbox({options}).then(res => {
         if(res){
-          this.filterMap[pname] = getFilterOptions(res.options)
-          this.curDataList = getFilterDataList(pname, this.dataList, this.filterMap[pname], curBeforeList)
+          this.filterMap[pname] = res.options
+          this.curDataList = getFilterDataList(pname, this.dataList, getFilterOptions(res.options), curBeforeList)
           this.curIndex = -1
         }
       })

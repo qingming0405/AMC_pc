@@ -3,7 +3,7 @@ import axios from 'axios'
 export function request(config){
   
   const baseURL = '../../../../AMC'
-  // const baseURL = 'http://10.100.50.206:8880/AMC'
+  // const baseURL = 'http://10.100.0.2:8880/AMC'
 
   const instance = axios.create({
     baseURL,

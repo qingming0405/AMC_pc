@@ -58,6 +58,7 @@ export default {
         data[i].needUpdate = false
         // data[i].showRow = true
         data[i].checkRow = false
+        data[i].id = i
         data[i].userId = data[i].user_id;
         data[i].userName = data[i].user.username;
         data[i].company = data[i].user.company;
