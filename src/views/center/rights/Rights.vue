@@ -69,10 +69,18 @@ export default {
         data[i].t_name = data[i].project.t_name;//组织名称
         data[i].projectRole = this.getProjectRole(data[i].type);
         data[i].OAs = this.getOAs(data[i].officialAccounts);//公众号
+        if(data[i].alarm_type.indexOf('off') === -1) {
+          data[i].alarm_type = this.localAlarm_type(data[i].alarm_type)
+        }
         data[i].amcAlarmType = this.getCheckLabelItems(JSON.parse(data[i].alarm_type));//报警类型
         data[i].amcUserPri = this.getCheckLabelItems(JSON.parse(data[i].user_pri));//用户操作权限
       }
       return data;
+    },
+    localAlarm_type(source) {
+      const t_alarm_type = source
+      const t_len = t_alarm_type.length
+      return t_alarm_type.slice(0, t_len-1) + ',"off":0' + t_alarm_type[t_len-1]
     },
     remoteDataList(data){
       for(let obj of data){
@@ -154,6 +162,8 @@ export default {
           return '人工推送'
         case 'trend':
           return '趋势报警'
+        case 'off':
+          return '离线'
         case 'confirm':
           return '确认'
         case 'defend':
